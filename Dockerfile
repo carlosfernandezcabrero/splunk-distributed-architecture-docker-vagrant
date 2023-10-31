@@ -1,0 +1,42 @@
+FROM centos:centos7 as builder
+
+WORKDIR /usr/local
+
+ARG RELEASE_URL
+
+RUN yum install -y wget \
+	&& wget --no-check-certificate --no-cache --no-cookies -O - "https://download.splunk.com/products/splunk/releases/${RELEASE_URL}" | tar -xzf - \
+	&& yum autoremove -y wget qrencode \
+	&& package-cleanup --leaves --all \
+	&& yum clean all \
+	&& rm -rf /var/cache
+
+WORKDIR ./splunk/etc
+
+COPY splunk-launch.conf .
+
+EXPOSE 8000
+
+
+FROM centos:centos7 as base
+COPY --from=builder /usr/local/splunk /usr/local/splunk
+
+
+FROM splunk-enterprise:latest as manager
+WORKDIR /usr/local/splunk
+COPY ./server-master.conf ./etc/system/local/server.conf
+EXPOSE 8089
+CMD ./bin/splunk start --answer-yes --accept-license --no-prompt --seed-passwd admin1234 && tail -f /dev/null
+
+
+FROM splunk-enterprise:latest as sh
+WORKDIR /usr/local/splunk
+COPY ./server-sh.conf ./etc/system/local/server.conf
+EXPOSE 8089
+CMD ./bin/splunk start --answer-yes --accept-license --no-prompt --seed-passwd admin1234 && tail -f /dev/null
+
+FROM splunk-enterprise:latest as idx
+WORKDIR /usr/local/splunk
+COPY ./server-idx.conf ./etc/system/local/server.conf
+EXPOSE 8080 8089
+CMD ./bin/splunk start --answer-yes --accept-license --no-prompt --seed-passwd admin1234 && tail -f /dev/null
