@@ -1,0 +1,35 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/bionic64"
+
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+
+  config.vm.provision "file", source: "./forwarder-compose.yml",
+                      destination: "/tmp/docker-compose.yml"
+  config.vm.provision "file", source: "./rabbitmq-consumer",
+                      destination: "/tmp/rabbitmq-consumer"
+
+  config.vm.provision :docker
+  config.vm.provision :docker_compose, yml: "/tmp/docker-compose.yml", run: "always", rebuild: true
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 512
+    v.cpus = 1
+  end
+
+
+  (1..1).each do |i|
+    config.vm.define "uf#{i}" do |uf|
+      uf.vm.network :private_network, ip: "192.168.33.3#{i}"
+      uf.vm.provider :virtualbox do |vb|
+        vb.name = "splunk-uf-#{i}"
+      end
+    end
+  end
+end
