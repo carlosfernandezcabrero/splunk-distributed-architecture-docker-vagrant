@@ -2,3 +2,5 @@
 app/
 venv/
 .env
+build/
+!build/.gitkeep
