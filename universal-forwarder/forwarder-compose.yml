@@ -11,7 +11,7 @@ services:
   rabbitmq-consumer:
     container_name: rabbitmq-consumer
     build:
-      context: rabbitmq-consumer
+      context: ./rabbitmq-consumer
       dockerfile: Dockerfile
     volumes:
       - /tmp:/tmp
