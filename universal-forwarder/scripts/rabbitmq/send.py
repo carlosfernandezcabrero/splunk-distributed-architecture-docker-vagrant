@@ -40,7 +40,7 @@ result = prompt([
 EXCHANGE_NAME = result["exchange_name"]
 QUEUE_NAME = result["queue_name"]
 
-parameters = pika.ConnectionParameters(RABBITMQ_SERVER)
+parameters = pika.ConnectionParameters(RABBITMQ_SERVER if RABBITMQ_SERVER else "localhost")
 connection = pika.BlockingConnection(parameters)
 
 channel = connection.channel()
