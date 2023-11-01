@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.12-management-alpine
+    ports:
+      - 15672:15672
+      - 5672:5672
+
+  rabbitmq-consumer:
+    container_name: rabbitmq-consumer
+    build:
+      context: rabbitmq-consumer
+      dockerfile: Dockerfile
+    volumes:
+      - /tmp:/tmp
