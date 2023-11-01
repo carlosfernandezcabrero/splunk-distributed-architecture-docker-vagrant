@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   
   config.vm.provision   "file", source: "./Dockerfile", 
                         destination: "/vagrant/app/Dockerfile"
-  config.vm.provision   "file", source: "./splunk-launch.conf", 
+  config.vm.provision   "file", source: "./configs/splunk-launch.conf", 
                         destination: "/vagrant/app/splunk-launch.conf"
 
   config.vm.provision "docker" do |d|
@@ -20,8 +20,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "manager" do |man|
     man.vm.network :private_network, ip: "192.168.33.10"
-    man.vm.provision  "file", source: "./server-master.conf", 
-                      destination: "/vagrant/app/server-master.conf"
+    man.vm.provision  "file", source: "./configs/manager/server.conf", 
+                      destination: "/vagrant/app/server.conf"
     man.vm.provider :virtualbox do |vb|
       vb.name = "splunk-manager"
     end
@@ -31,11 +31,11 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  (1..2).each do |i|
+  (1..1).each do |i|
     config.vm.define "sh#{i}" do |shcl|
       shcl.vm.network :private_network, ip: "192.168.33.1#{i}"
-      shcl.vm.provision "file", source: "./server-sh.conf", 
-                        destination: "/vagrant/app/server-sh.conf"
+      shcl.vm.provision "file", source: "./configs/sh/server.conf", 
+                        destination: "/vagrant/app/server.conf"
       shcl.vm.provider :virtualbox do |vb|
         vb.name = "splunk-sh-#{i}"
       end
@@ -46,11 +46,11 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  (1..2).each do |i|
+  (1..1).each do |i|
     config.vm.define "idx#{i}" do |idx|
       idx.vm.network :private_network, ip: "192.168.33.2#{i}"
-      idx.vm.provision  "file", source: "./server-idx.conf", 
-                        destination: "/vagrant/app/server-idx.conf"
+      idx.vm.provision  "file", source: "./configs/idx/server.conf", 
+                        destination: "/vagrant/app/server.conf"
       idx.vm.provider :virtualbox do |vb|
         vb.name = "splunk-idx-#{i}"
       end
