@@ -24,12 +24,6 @@ result = prompt([
     },
     {
         "type": "input",
-        "message": "Nombre de la cola:",
-        "name": "queue_name",
-        "default": "logs",
-    },
-    {
-        "type": "input",
         "message": "Mensaje:",
         "name": "message",
         "default": f"[{datetime.now().strftime("%F %T")}] {fake.http_method()} {fake.uri()}",
@@ -38,7 +32,7 @@ result = prompt([
 
 
 EXCHANGE_NAME = result["exchange_name"]
-QUEUE_NAME = result["queue_name"]
+QUEUE_NAME = "logs"
 
 parameters = pika.ConnectionParameters(RABBITMQ_SERVER if RABBITMQ_SERVER else "localhost")
 connection = pika.BlockingConnection(parameters)
