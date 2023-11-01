@@ -7,26 +7,29 @@
 # you're doing.
 Vagrant.configure("2") do |config|
   config.vm.box = "hashicorp/bionic64"
-  
+
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.synced_folder "build/", "/build"
+
   config.vm.provision   "file", source: "./Dockerfile", 
-                        destination: "/vagrant/app/Dockerfile"
+                        destination: "/build/Dockerfile"
   config.vm.provision   "file", source: "./configs/splunk-launch.conf", 
-                        destination: "/vagrant/app/splunk-launch.conf"
+                        destination: "/build/splunk-launch.conf"
 
   config.vm.provision "docker" do |d|
-    d.build_image "/vagrant/app", args: '--build-arg="RELEASE_URL=7.3.6/linux/splunk-7.3.6-47d8552a4d84-Linux-x86_64.tgz" --target=base -t splunk-enterprise'
+    d.build_image "/build", args: '--build-arg="RELEASE_URL=7.3.6/linux/splunk-7.3.6-47d8552a4d84-Linux-x86_64.tgz" --target=base -t splunk-enterprise'
   end
 
 
   config.vm.define "manager" do |man|
     man.vm.network :private_network, ip: "192.168.33.10"
     man.vm.provision  "file", source: "./configs/manager/server.conf", 
-                      destination: "/vagrant/app/server.conf"
+                      destination: "/build/server.conf"
     man.vm.provider :virtualbox do |vb|
       vb.name = "splunk-manager"
     end
     man.vm.provision "docker" do |d|
-      d.build_image "/vagrant/app", args: '--target=manager -t splunk-manager'
+      d.build_image "/build", args: '--target=manager -t splunk-manager'
       d.run "splunk-manager", image: "splunk-manager", args: "-p 8000:8000 -p 8089:8089"
     end
   end
@@ -35,12 +38,12 @@ Vagrant.configure("2") do |config|
     config.vm.define "sh#{i}" do |shcl|
       shcl.vm.network :private_network, ip: "192.168.33.1#{i}"
       shcl.vm.provision "file", source: "./configs/sh/server.conf", 
-                        destination: "/vagrant/app/server.conf"
+                        destination: "/build/server.conf"
       shcl.vm.provider :virtualbox do |vb|
         vb.name = "splunk-sh-#{i}"
       end
       shcl.vm.provision "docker" do |d|
-        d.build_image "/vagrant/app", args: '--target=sh -t splunk-sh'
+        d.build_image "/build", args: '--target=sh -t splunk-sh'
         d.run "splunk-sh", image: "splunk-sh", args: "-p 8000:8000 -p 8089:8089"
       end
     end
@@ -50,12 +53,12 @@ Vagrant.configure("2") do |config|
     config.vm.define "idx#{i}" do |idx|
       idx.vm.network :private_network, ip: "192.168.33.2#{i}"
       idx.vm.provision  "file", source: "./configs/idx/server.conf", 
-                        destination: "/vagrant/app/server.conf"
+                        destination: "/build/server.conf"
       idx.vm.provider :virtualbox do |vb|
         vb.name = "splunk-idx-#{i}"
       end
       idx.vm.provision "docker" do |d|
-        d.build_image "/vagrant/app", args: '--target=idx -t splunk-idx'
+        d.build_image "/build", args: '--target=idx -t splunk-idx'
         d.run "splunk-idx", image: "splunk-idx", args: "-p 8000:8000 -p 8080:8080 -p 8089:8089"
       end
     end
