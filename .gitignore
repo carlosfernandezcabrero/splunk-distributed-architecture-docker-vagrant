@@ -4,3 +4,4 @@ venv/
 .env
 build/
 !build/.gitkeep
+*.log
