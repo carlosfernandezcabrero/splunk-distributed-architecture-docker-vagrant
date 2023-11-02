@@ -26,18 +26,21 @@ FROM splunk-enterprise:latest as manager
 WORKDIR /usr/local/splunk
 COPY ./server.conf ./etc/system/local/server.conf
 EXPOSE 8089
-CMD ./bin/splunk start --answer-yes --accept-license --no-prompt --seed-passwd admin1234 && tail -f /dev/null
+RUN ./bin/splunk start --answer-yes --accept-license --no-prompt --seed-passwd admin1234
+CMD ./bin/splunk start && tail -f /dev/null
 
 
 FROM splunk-enterprise:latest as sh
 WORKDIR /usr/local/splunk
 COPY ./server.conf ./etc/system/local/server.conf
 EXPOSE 8089
-CMD ./bin/splunk start --answer-yes --accept-license --no-prompt --seed-passwd admin1234 && tail -f /dev/null
+RUN ./bin/splunk start --answer-yes --accept-license --no-prompt --seed-passwd admin1234
+CMD ./bin/splunk start && tail -f /dev/null
 
 
 FROM splunk-enterprise:latest as idx
 WORKDIR /usr/local/splunk
 COPY ./server.conf ./etc/system/local/server.conf
 EXPOSE 8080 8089
-CMD ./bin/splunk start --answer-yes --accept-license --no-prompt --seed-passwd admin1234 && tail -f /dev/null
+RUN ./bin/splunk start --answer-yes --accept-license --no-prompt --seed-passwd admin1234
+CMD ./bin/splunk start && tail -f /dev/null
