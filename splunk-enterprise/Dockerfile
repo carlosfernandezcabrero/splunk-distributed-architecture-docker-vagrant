@@ -18,7 +18,7 @@ COPY splunk-launch.conf .
 EXPOSE 8000
 
 
-FROM centos:centos7 as base
+FROM centos:centos7 as splunk-enterprise
 COPY --from=builder /usr/local/splunk /usr/local/splunk
 
 
