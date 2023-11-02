@@ -49,8 +49,8 @@ Vagrant.configure("2") do |config|
         vb.name = "splunk-sh-#{i}"
       end
       shcl.vm.provision "docker" do |d|
-        d.build_image "/tmp", args: '--target=sh -t splunk-sh'
-        d.run "splunk-sh", image: "splunk-sh", args: "-p 8000:8000 -p 8089:8089"
+        d.build_image "/tmp", args: '--build-arg="ADMIN_PASSWD=admin1234" --build-arg="HOST_IP=192.168.33.1#{i}" --build-arg="REPLICATION_PORT=9888" --build-arg="MANAGER_IP=192.168.33.10" --build-arg="SHCLUSTER_LABEL=sh#{i}" --build-arg="SECRET=mykey" --target=sh -t splunk-sh'
+        d.run "splunk-sh", image: "splunk-sh", args: "-p 8000:8000 -p 8089:8089 -p 9888:9888"
       end
     end
   end
