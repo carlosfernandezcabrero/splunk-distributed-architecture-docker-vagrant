@@ -14,6 +14,8 @@ Vagrant.configure("2") do |config|
                         destination: "/tmp/Dockerfile"
   config.vm.provision   "file", source: "./configs/splunk-launch.conf", 
                         destination: "/tmp/splunk-launch.conf"
+  config.vm.provision   "file", source: "./configs/user-seed.conf",
+                        destination: "/tmp/user-seed.conf"
 
   config.vm.provision "docker" do |d|
     d.build_image "/tmp", args: '--build-arg="RELEASE_URL=7.3.6/linux/splunk-7.3.6-47d8552a4d84-Linux-x86_64.tgz" --target=splunk-enterprise -t splunk-enterprise'

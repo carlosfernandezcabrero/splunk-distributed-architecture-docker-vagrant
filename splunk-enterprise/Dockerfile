@@ -14,6 +14,7 @@ RUN yum install -y wget \
 WORKDIR /usr/local/splunk/etc
 
 COPY splunk-launch.conf .
+COPY user-seed.conf ./system/local
 
 EXPOSE 8000
 
@@ -26,7 +27,7 @@ FROM splunk-enterprise:latest as manager
 WORKDIR /usr/local/splunk
 COPY ./server.conf ./etc/system/local/server.conf
 EXPOSE 8089
-RUN ./bin/splunk start --answer-yes --accept-license --no-prompt --seed-passwd admin1234
+RUN ./bin/splunk start --answer-yes --accept-license --no-prompt
 CMD ./bin/splunk start && tail -f /dev/null
 
 
@@ -34,7 +35,7 @@ FROM splunk-enterprise:latest as sh
 WORKDIR /usr/local/splunk
 COPY ./server.conf ./etc/system/local/server.conf
 EXPOSE 8089
-RUN ./bin/splunk start --answer-yes --accept-license --no-prompt --seed-passwd admin1234
+RUN ./bin/splunk start --answer-yes --accept-license --no-prompt
 CMD ./bin/splunk start && tail -f /dev/null
 
 
@@ -42,5 +43,5 @@ FROM splunk-enterprise:latest as idx
 WORKDIR /usr/local/splunk
 COPY ./server.conf ./etc/system/local/server.conf
 EXPOSE 8080 8089
-RUN ./bin/splunk start --answer-yes --accept-license --no-prompt --seed-passwd admin1234
+RUN ./bin/splunk start --answer-yes --accept-license --no-prompt
 CMD ./bin/splunk start && tail -f /dev/null
