@@ -27,46 +27,93 @@ Vagrant.configure("2") do |config|
   end
 
 
-  config.vm.define "manager" do |man|
-    man.vm.network :private_network, ip: "192.168.33.10"
-    man.vm.provision  "file", source: "./configs/manager/server.conf", 
+  config.vm.define "master" do |man|
+    man.vm.network :private_network, ip: "192.168.33.2"
+    man.vm.provision  "file", source: "./configs/master/server.conf", 
                       destination: "/tmp/server.conf"
     man.vm.provider :virtualbox do |vb|
-      vb.name = "splunk-manager"
+      vb.name = "splunk-master"
     end
     man.vm.provision "docker" do |d|
-      d.build_image "/tmp", args: '--target=manager -t splunk-manager'
-      d.run "splunk-manager", image: "splunk-manager", args: "-p 8000:8000 -p 8089:8089"
+      d.build_image "/tmp", args: '--target=splunk-instance -t splunk-master'
+      d.run "splunk-master", image: "splunk-master", args: "--network host"
     end
   end
 
-  (1..1).each do |i|
-    config.vm.define "sh#{i}" do |shcl|
-      shcl.vm.network :private_network, ip: "192.168.33.1#{i}"
-      shcl.vm.provision "file", source: "./configs/sh/server.conf", 
-                        destination: "/tmp/server.conf"
-      shcl.vm.provider :virtualbox do |vb|
+  (2..2).each do |i|
+    config.vm.define "sh#{i}" do |shclmember|
+      shclmember.vm.network :private_network, ip: "192.168.33.1#{i}"
+      shclmember.vm.provision "file", source: "./configs/shc-member/server.conf", 
+                              destination: "/tmp/server.conf"
+      shclmember.vm.provider :virtualbox do |vb|
         vb.name = "splunk-sh-#{i}"
       end
-      shcl.vm.provision "docker" do |d|
-        d.build_image "/tmp", args: '--build-arg="ADMIN_PASSWD=admin1234" --build-arg="HOST_IP=192.168.33.1#{i}" --build-arg="REPLICATION_PORT=9888" --build-arg="MANAGER_IP=192.168.33.10" --build-arg="SHCLUSTER_LABEL=sh#{i}" --build-arg="SECRET=mykey" --target=sh -t splunk-sh'
-        d.run "splunk-sh", image: "splunk-sh", args: "-p 8000:8000 -p 8089:8089 -p 9888:9888"
+      shclmember.vm.provision "shell", inline: <<-SHELL
+        echo "\nmgmt_uri = https://192.168.33.1#{i}:8089" >> /tmp/server.conf
+        echo "mode = member" >> /tmp/server.conf
+        echo "" >> /tmp/server.conf
+        echo "[general]" >> /tmp/server.conf
+        echo serverName = splunk_sh_#{i} >> /tmp/server.conf
+      SHELL
+      shclmember.vm.provision "docker" do |d|
+        d.build_image "/tmp", args: '--target=splunk-instance -t splunk-sh'
+        d.run "splunk-sh", image: "splunk-sh", args: "--network host"
       end
     end
   end
 
-  (1..1).each do |i|
+  config.vm.define "sh1" do |shclcaptain|
+    shclcaptain.vm.network :private_network, ip: "192.168.33.11"
+    shclcaptain.vm.provision  "file", source: "./configs/shc-member/server.conf", 
+                              destination: "/tmp/server.conf"
+    shclcaptain.vm.provider :virtualbox do |vb|
+      vb.name = "splunk-sh-1"
+    end
+    shclcaptain.vm.provision "shell", inline: <<-SHELL
+      echo "\nmgmt_uri = https://192.168.33.11:8089" >> /tmp/server.conf
+      echo "mode = captain" >> /tmp/server.conf
+      echo "" >> /tmp/server.conf
+      echo "[general]" >> /tmp/server.conf
+      echo serverName = splunk_sh_1 >> /tmp/server.conf
+    SHELL
+    shclcaptain.vm.provision "docker" do |d|
+      d.build_image "/tmp", args: '--target=splunk-instance -t splunk-sh'
+      d.run "splunk-sh", image: "splunk-sh", args: "--network host"
+    end
+  end
+
+  (1..2).each do |i|
     config.vm.define "idx#{i}" do |idx|
       idx.vm.network :private_network, ip: "192.168.33.2#{i}"
       idx.vm.provision  "file", source: "./configs/idx/server.conf", 
                         destination: "/tmp/server.conf"
+      idx.vm.provision  "file", source: "./configs/idx/inputs.conf", 
+                        destination: "/tmp/inputs.conf"
       idx.vm.provider :virtualbox do |vb|
         vb.name = "splunk-idx-#{i}"
       end
+      idx.vm.provision "shell", inline: <<-SHELL
+        echo "" >> /tmp/server.conf
+        echo "[general]" >> /tmp/server.conf
+        echo serverName = splunk_idx_#{i} >> /tmp/server.conf
+      SHELL
       idx.vm.provision "docker" do |d|
         d.build_image "/tmp", args: '--target=idx -t splunk-idx'
-        d.run "splunk-idx", image: "splunk-idx", args: "-p 8000:8000 -p 8080:8080 -p 8089:8089"
+        d.run "splunk-idx", image: "splunk-idx", args: "--network host"
       end
+    end
+  end
+
+  config.vm.define "deployer" do |dep|
+    dep.vm.network :private_network, ip: "192.168.33.3"
+    dep.vm.provision  "file", source: "./configs/deployer/server.conf", 
+                      destination: "/tmp/server.conf"
+    dep.vm.provider :virtualbox do |vb|
+      vb.name = "splunk-deployer"
+    end
+    dep.vm.provision "docker" do |d|
+      d.build_image "/tmp", args: '--target=splunk-instance -t splunk-deployer'
+      d.run "splunk-deployer", image: "splunk-deployer", args: "--network host"
     end
   end
 end

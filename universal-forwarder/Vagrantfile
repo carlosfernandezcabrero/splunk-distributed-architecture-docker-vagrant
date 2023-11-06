@@ -18,7 +18,6 @@ Vagrant.configure("2") do |config|
                       destination: "/tmp/uf"
 
   config.vm.provision :docker
-  config.vm.provision :docker_compose, yml: "/tmp/docker-compose.yml", run: "always", rebuild: true
 
   config.vm.provider "virtualbox" do |v|
     v.memory = 512
@@ -32,6 +31,10 @@ Vagrant.configure("2") do |config|
       uf.vm.provider :virtualbox do |vb|
         vb.name = "splunk-uf-#{i}"
       end
+      uf.vm.provision "shell", inline: <<-SHELL
+        echo serverName = splunk_uf_#{i} >> /tmp/uf/server.conf
+      SHELL
+      uf.vm.provision :docker_compose, yml: "/tmp/docker-compose.yml", run: "always", rebuild: true
     end
   end
 end
