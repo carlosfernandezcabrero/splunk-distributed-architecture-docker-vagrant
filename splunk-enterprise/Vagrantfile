@@ -114,7 +114,7 @@ Vagrant.configure("2") do |config|
       SHELL
       idx.vm.provision "docker" do |d|
         d.build_image "/tmp", args: '--target=idx -t splunk-idx'
-        d.run "splunk-idx", image: "splunk-idx", args: "--network host --mount source=splunkinstlogsvol,target=/usr/local/splunk/var/log/splunk --mount source=splunkinstslappsvol,target=/usr/local/splunk/etc/slave-apps"
+        d.run "splunk-idx", image: "splunk-idx", args: "--network host --mount source=splunkinstlogsvol,target=/usr/local/splunk/var/log/splunk"
       end
     end
   end
