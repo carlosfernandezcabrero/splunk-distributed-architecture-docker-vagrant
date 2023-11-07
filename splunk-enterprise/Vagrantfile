@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
     end
     man.vm.provision "docker" do |d|
       d.build_image "/tmp", args: '--target=splunk-instance -t splunk-master'
-      d.run "splunk-master", image: "splunk-master", args: "--network host --mount source=splunkinstshclvol,target=/usr/local/splunk/etc/shcluster/apps --mount source=splunkinstmappsvol,target=/usr/local/splunk/etc/master-apps --mount source=splunkinstlogsvol,target=/usr/local/splunk/var/log/splunk"
+      d.run "splunk-master", image: "splunk-master", args: "--network host --mount source=splunkinstshclvol,target=/usr/local/splunk/etc/shcluster/apps --mount source=splunkinstmappsvol,target=/usr/local/splunk/etc/master-apps --mount source=splunkinstdepvol,target=/usr/local/splunk/etc/deployment-apps --mount source=splunkinstlogsvol,target=/usr/local/splunk/var/log/splunk"
     end
   end
 
