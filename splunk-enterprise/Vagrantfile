@@ -103,17 +103,4 @@ Vagrant.configure("2") do |config|
       end
     end
   end
-
-  config.vm.define "deployer" do |dep|
-    dep.vm.network :private_network, ip: "192.168.33.3"
-    dep.vm.provision  "file", source: "./configs/deployer/server.conf", 
-                      destination: "/tmp/server.conf"
-    dep.vm.provider :virtualbox do |vb|
-      vb.name = "splunk-deployer"
-    end
-    dep.vm.provision "docker" do |d|
-      d.build_image "/tmp", args: '--target=splunk-instance -t splunk-deployer'
-      d.run "splunk-deployer", image: "splunk-deployer", args: "--network host"
-    end
-  end
 end
