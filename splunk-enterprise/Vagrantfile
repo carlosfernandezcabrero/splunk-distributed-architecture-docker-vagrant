@@ -118,4 +118,21 @@ Vagrant.configure("2") do |config|
       end
     end
   end
+
+  config.vm.define "hf" do |hf|
+    hf.vm.network :private_network, ip: "192.168.33.3"
+    hf.vm.provision   "file", source: "./../common/configs/outputs.conf", 
+                      destination: "/tmp/outputs.conf"
+    hf.vm.provider :virtualbox do |vb|
+      vb.name = "splunk-hf"
+    end
+    hf.vm.provision "shell", inline: <<-SHELL
+      echo "[general]" >> /tmp/server.conf
+      echo serverName = splunk_hf >> /tmp/server.conf
+    SHELL
+    hf.vm.provision "docker" do |d|
+      d.build_image "/tmp", args: '--target=hf -t splunk-hf'
+      d.run "splunk-hf", image: "splunk-hf", args: "--network host --mount source=splunkinstlogsvol,target=/usr/local/splunk/var/log/splunk --mount source=splunkinstappsvol,target=/usr/local/splunk/etc/apps"
+    end
+  end
 end

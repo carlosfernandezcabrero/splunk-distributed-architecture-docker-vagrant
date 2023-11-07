@@ -31,6 +31,14 @@ CMD ./bin/splunk start --answer-yes --accept-license --no-prompt \
 
 
 
+FROM splunk-enterprise:latest as hf
+WORKDIR /usr/local/splunk
+COPY outputs.conf ./etc/system/local/outputs.conf
+CMD ./bin/splunk start --answer-yes --accept-license --no-prompt \
+	&& tail -f /dev/null
+
+
+
 FROM splunk-enterprise:latest as idx
 WORKDIR /usr/local/splunk
 COPY ./server.conf ./etc/system/local/server.conf
