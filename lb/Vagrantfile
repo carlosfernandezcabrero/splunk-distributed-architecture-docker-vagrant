@@ -1,0 +1,29 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+    config.vm.box = "ubuntu/bionic64"
+
+    config.vm.synced_folder '.', '/vagrant', disabled: true
+
+    config.vm.provision "file", source: "./Dockerfile", 
+                        destination: "/tmp/Dockerfile"
+    config.vm.provision "file", source: "./nginx.conf", 
+                        destination: "/tmp/nginx.conf"
+
+    config.vm.network :private_network, ip: "192.168.33.4"
+
+    config.vm.provider "virtualbox" do |v|
+        v.memory = 512
+        v.cpus = 1
+    end
+
+    config.vm.provision "docker" do |d|
+        d.build_image "/tmp", args: '-t load-balancer'
+        d.run "load-balancer", image: "load-balancer", args: "-p 80:80"
+    end
+end
