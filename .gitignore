@@ -5,3 +5,5 @@ venv/
 build/
 !build/.gitkeep
 *.log
+!common/downloads/.gitkeep
+*.tgz

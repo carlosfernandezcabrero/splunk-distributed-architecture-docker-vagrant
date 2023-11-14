@@ -1,23 +1,10 @@
-FROM centos:centos7 as builder
-
-WORKDIR /usr/local
-
-ARG RELEASE_URL=7.3.6/linux/splunk-7.3.6-47d8552a4d84-Linux-x86_64.tgz
-
-RUN yum install -y wget \
-	&& wget --no-check-certificate --no-cache --no-cookies -O - "https://download.splunk.com/products/splunk/releases/${RELEASE_URL}" | tar -xzf - \
-	&& yum autoremove -y wget qrencode \
-	&& package-cleanup --leaves --all \
-	&& yum clean all \
-	&& rm -rf /var/cache
-
-
-
 FROM centos:centos7 as splunk-enterprise
 
 ENV TZ="Europe/Madrid"
 
-COPY --from=builder /usr/local/splunk /usr/local/splunk
+WORKDIR /usr/local
+COPY splunk-enterprise.tgz .
+RUN tar -xzf splunk-enterprise.tgz
 
 WORKDIR /usr/local/splunk/etc
 COPY server.conf system/local/server.conf
