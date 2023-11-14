@@ -45,3 +45,12 @@ COPY ./server.conf ./etc/system/local/server.conf
 COPY inputs.conf ./etc/system/local/inputs.conf
 CMD ./bin/splunk start --answer-yes --accept-license --no-prompt \
 	&& tail -f /dev/null
+
+FROM splunk-enterprise:latest as test-sh
+WORKDIR /usr/local/splunk
+COPY ./server.conf ./etc/system/local/server.conf
+CMD ./bin/splunk start --answer-yes --accept-license --no-prompt \
+	&& ./bin/splunk add search-server https://192.168.33.5:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234 \
+	&& ./bin/splunk add search-server https://192.168.33.21:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234 \
+	&& ./bin/splunk add search-server https://192.168.33.22:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234 \
+	&& tail -f /dev/null
