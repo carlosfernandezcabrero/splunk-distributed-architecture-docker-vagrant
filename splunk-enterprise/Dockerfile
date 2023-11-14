@@ -14,6 +14,9 @@ RUN yum install -y wget \
 
 
 FROM centos:centos7 as splunk-enterprise
+
+ENV TZ="Europe/Madrid"
+
 COPY --from=builder /usr/local/splunk /usr/local/splunk
 
 WORKDIR /usr/local/splunk/etc

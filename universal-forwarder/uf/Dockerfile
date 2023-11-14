@@ -1,6 +1,8 @@
 FROM python:3.11-slim-bullseye
 WORKDIR /usr/local/splunk_forwarder
 
+ENV TZ="Europe/Madrid"
+
 ARG RELEASE_URL
 
 RUN apt-get update \
