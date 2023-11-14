@@ -113,24 +113,29 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  (1..2).each do |i|
-    config.vm.define "idx#{i}" do |idx|
-      idx.vm.network :private_network, ip: "192.168.33.2#{i}"
-      idx.vm.provision  "file", source: "./configs/idx/server.conf", 
-                        destination: "/tmp/server.conf"
-      idx.vm.provision  "file", source: "./configs/idx/inputs.conf", 
-                        destination: "/tmp/inputs.conf"
-      idx.vm.provider :virtualbox do |vb|
-        vb.name = "splunk-idx-#{i}"
-      end
-      idx.vm.provision "shell", inline: <<-SHELL
-        echo "" >> /tmp/server.conf
-        echo "[general]" >> /tmp/server.conf
-        echo serverName = splunk_idx_#{i} >> /tmp/server.conf
-      SHELL
-      idx.vm.provision "docker" do |d|
-        d.build_image "/tmp", args: '--target=idx -t splunk-idx'
-        d.run "splunk-idx", image: "splunk-idx", args: "--network host --mount source=splunkinstlogsvol,target=/usr/local/splunk/var/log/splunk"
+  File.open('../common/files/indexers.txt') do |f|
+    f.each_line do |server|
+      server = server.chop
+      num_idx = server[-1]
+
+      config.vm.define "idx#{num_idx}" do |idx|
+        idx.vm.network :private_network, ip: "#{server}"
+        idx.vm.provision  "file", source: "./configs/idx/server.conf", 
+                          destination: "/tmp/server.conf"
+        idx.vm.provision  "file", source: "./configs/idx/inputs.conf", 
+                          destination: "/tmp/inputs.conf"
+        idx.vm.provider :virtualbox do |vb|
+          vb.name = "splunk-idx-#{num_idx}"
+        end
+        idx.vm.provision "shell", inline: <<-SHELL
+          echo "" >> /tmp/server.conf
+          echo "[general]" >> /tmp/server.conf
+          echo serverName = splunk_idx_#{num_idx} >> /tmp/server.conf
+        SHELL
+        idx.vm.provision "docker" do |d|
+          d.build_image "/tmp", args: '--target=idx -t splunk-idx'
+          d.run "splunk-idx", image: "splunk-idx", args: "--network host --mount source=splunkinstlogsvol,target=/usr/local/splunk/var/log/splunk"
+        end
       end
     end
   end
