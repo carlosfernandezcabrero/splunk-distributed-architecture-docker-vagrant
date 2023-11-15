@@ -137,7 +137,7 @@ Vagrant.configure("2") do |config|
 
   File.open('../common/files/indexers.txt') do |f|
     f.each_line do |server|
-      server = server.chop
+      server = server.gsub("\n","")
       num_idx = server[-1]
 
       config.vm.define "idx#{num_idx}" do |idx|
