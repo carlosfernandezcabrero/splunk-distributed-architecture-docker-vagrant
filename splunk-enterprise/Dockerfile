@@ -32,3 +32,12 @@ FROM splunk-enterprise as test-sh
 CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt \
 	&& /usr/local/splunk/bin/splunk add search-server https://192.168.33.5:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234 \
 	&& tail -f /dev/null
+
+
+
+FROM splunk-enterprise as shcluster-captain
+WORKDIR /tmp
+COPY shcluster_members.txt .
+COPY bootstrap_captain.py .
+CMD python bootstrap_captain.py \
+	&& tail -f /dev/null
