@@ -1,6 +1,19 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+require 'open-uri'
+require './env'
+
+universalforwarder_path = "../common/downloads/universalforwarder.tgz"
+
+if not File.exist?(universalforwarder_path) or File.size(universalforwarder_path) == 0
+  open(universalforwarder_path, "w") do |out|
+    RELEASE_URL = ENV['RELEASE_URL']
+    response = URI.open("https://download.splunk.com/products/universalforwarder/releases/#{RELEASE_URL}").read
+    out.write(response)
+  end
+end
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -10,16 +23,16 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder '.', '/vagrant', disabled: true
 
-  config.vm.provision "file", source: "./forwarder-compose.yml",
+  config.vm.provision "file", before: :all, source: "./forwarder-compose.yml",
                       destination: "/tmp/docker-compose.yml"
-  config.vm.provision "file", source: "./rabbitmq-consumer",
+  config.vm.provision "file", before: :all, source: "./rabbitmq-consumer",
                       destination: "/tmp/rabbitmq-consumer"
-  config.vm.provision "file", source: "./uf",
+  config.vm.provision "file", before: :all, source: "./uf",
                       destination: "/tmp/uf"
-  config.vm.provision "file", source: "./../common/configs/outputs.conf",
+  config.vm.provision "file", before: :all, source: "./../common/configs/outputs.conf",
                       destination: "/tmp/uf/outputs.conf"
-
-  config.vm.provision :docker
+  config.vm.provision "file", before: :all, source: universalforwarder_path,
+                      destination: "/tmp/uf/universalforwarder.tgz"
 
 
   config.vm.provider "virtualbox" do |v|
@@ -28,9 +41,11 @@ Vagrant.configure("2") do |config|
   end
 
 
-  config.vm.provision "shell", inline: <<-SHELL
+  config.vm.provision "set_date", before: :all, type: "shell", inline: <<-SHELL
     timedatectl set-timezone Europe/Madrid
   SHELL
+  config.vm.provision "install_docker", before: :all, path: "../common/scripts/install_docker.sh", type: "shell"
+  config.vm.provision :docker_compose, after: :all, yml: "/tmp/docker-compose.yml", run: "always"
 
 
   (1..1).each do |i|
@@ -40,9 +55,8 @@ Vagrant.configure("2") do |config|
         vb.name = "splunk-uf-#{i}"
       end
       uf.vm.provision "shell", inline: <<-SHELL
-        echo serverName = splunk_uf_#{i} >> /tmp/uf/server.conf
+        echo "\nserverName = splunk_uf_#{i}" >> /tmp/uf/server.conf
       SHELL
-      uf.vm.provision :docker_compose, yml: "/tmp/docker-compose.yml", run: "always"
     end
   end
 end
