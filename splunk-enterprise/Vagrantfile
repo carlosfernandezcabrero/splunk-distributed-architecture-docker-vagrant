@@ -67,7 +67,7 @@ Vagrant.configure("2") do |config|
       shclmember.vm.provider :virtualbox do |vb|
         vb.name = "splunk-sh-#{i}"
       end
-      shclmember.vm.provision "shell", inline: <<-SHELL
+      shclmember.vm.provision "set_clustering", type: "shell", inline: <<-SHELL
         echo "\nmgmt_uri = https://192.168.33.1#{i}:8089" >> /tmp/server.conf
         echo "mode = member" >> /tmp/server.conf
         echo "" >> /tmp/server.conf
@@ -89,7 +89,7 @@ Vagrant.configure("2") do |config|
     shclcaptain.vm.provider :virtualbox do |vb|
       vb.name = "splunk-sh-1"
     end
-    shclcaptain.vm.provision "shell", inline: <<-SHELL
+    shclcaptain.vm.provision "set_clustering", type: "shell", inline: <<-SHELL
       echo "\nmgmt_uri = https://192.168.33.11:8089" >> /tmp/server.conf
       echo "mode = captain" >> /tmp/server.conf
       echo "" >> /tmp/server.conf
