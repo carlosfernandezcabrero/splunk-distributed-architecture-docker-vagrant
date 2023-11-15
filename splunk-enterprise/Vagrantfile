@@ -70,9 +70,6 @@ Vagrant.configure("2") do |config|
       shclmember.vm.provision "set_clustering", type: "shell", inline: <<-SHELL
         echo "\nmgmt_uri = https://192.168.33.1#{i}:8089" >> /tmp/server.conf
         echo "mode = member" >> /tmp/server.conf
-        echo "" >> /tmp/server.conf
-        echo "[general]" >> /tmp/server.conf
-        echo serverName = splunk_sh_#{i} >> /tmp/server.conf
       SHELL
       shclmember.vm.provision "set_servername", type: "shell", path: "../common/scripts/set_servername.sh", args: "splunk_sh_#{i}"
       shclmember.vm.provision "docker" do |d|
@@ -92,9 +89,6 @@ Vagrant.configure("2") do |config|
     shclcaptain.vm.provision "set_clustering", type: "shell", inline: <<-SHELL
       echo "\nmgmt_uri = https://192.168.33.11:8089" >> /tmp/server.conf
       echo "mode = captain" >> /tmp/server.conf
-      echo "" >> /tmp/server.conf
-      echo "[general]" >> /tmp/server.conf
-      echo serverName = splunk_sh_1 >> /tmp/server.conf
     SHELL
     shclcaptain.vm.provision "set_servername", type: "shell", path: "../common/scripts/set_servername.sh", args: "splunk_sh_1"
     shclcaptain.vm.provision "docker" do |d|
