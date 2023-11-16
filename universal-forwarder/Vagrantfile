@@ -55,7 +55,7 @@ Vagrant.configure("2") do |config|
       uf.vm.provider :virtualbox do |vb|
         vb.name = "splunk-uf-#{i}"
       end
-      uf.vm.provision "server.conf", type: "shell", path: "../common/configs/server.py", args: "splunk_uf_#{i}"
+      uf.vm.provision "server.conf", type: "shell", path: "../common/configs/server.py", args: "splunk_uf_#{i} /tmp/uf/server.conf"
     end
   end
 end
