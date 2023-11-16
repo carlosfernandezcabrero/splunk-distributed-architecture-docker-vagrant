@@ -4,6 +4,7 @@ import sys
 from configparser import ConfigParser
 
 outputs_path = sys.argv[1]
+outputs_path = outputs_path if outputs_path else "/tmp/outputs.conf"
 
 config = ConfigParser()
 config.optionxform = str
