@@ -1,0 +1,20 @@
+#!/usr/bin/python3
+
+from configparser import ConfigParser
+
+config = ConfigParser()
+config.optionxform = str
+
+config.read("/tmp/outputs.conf")
+
+config["tcpout"] = {"defaultGroup": "de_group"}
+
+config["tcpout:de_group"] = {"server": "192.168.33.5:9997"}
+
+with open("../files/indexers.txt", "r") as indexers_file:
+    indexers = indexers_file.read().replace(":", "").splitlines()
+    pr_group_servers = ":9997,".join(indexers)
+    config["tcpout:pr_group"] = {"server": f"{pr_group_servers}:9997"}
+
+with open("/tmp/outputs.conf", "w") as config_file:
+    config.write(config_file)
