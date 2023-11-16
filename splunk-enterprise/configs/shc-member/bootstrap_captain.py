@@ -1,7 +1,7 @@
 import os
 
 file = open("shcluster_members.txt", "r")
-contents = file.read().splitlines()
+contents = file.read().replace(":", "").splitlines()
 file.close()
 
 server_list = ":8089,https://".join(contents)
