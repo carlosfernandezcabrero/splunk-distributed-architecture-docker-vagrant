@@ -15,7 +15,9 @@ config["clustering"] = {
     "mode": "searchhead",
 }
 
-config.add_section("replication_port://9888")
+replication_port_section = "replication_port://9888"
+if not config.has_section(replication_port_section):
+    config.add_section(replication_port_section)
 
 config["shclustering"] = {
     "conf_deploy_fetch_url": "https://192.168.33.2:8089",
