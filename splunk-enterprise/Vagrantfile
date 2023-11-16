@@ -148,6 +148,8 @@ Vagrant.configure("2") do |config|
     hf.vm.provider :virtualbox do |vb|
       vb.name = "splunk-hf"
     end
+    hf.vm.provision "file", before: :all, source: "../common/files/indexers.txt",
+                    destination: "/tmp/indexers.txt"
     hf.vm.provision "server.conf", type: "shell", path: "../common/configs/server.py", args: "splunk_hf"
     hf.vm.provision "outputs.conf", type: "shell", path: "../common/configs/outputs.py", args: "/tmp/outputs.conf"
     hf.vm.provision "docker" do |d|
