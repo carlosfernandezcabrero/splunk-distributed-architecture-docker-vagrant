@@ -1,5 +1,14 @@
 # Splunk Distributed Architecture
 
+## Requisitos
+
++ Tener instalado [Vagrant](https://www.vagrantup.com/) ([instrucciones](https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-install?product_intent=vagrant)).
++ Instalar el provider de Docker Compose para Vagrant.
+
+  ``` bash
+  vagrant plugin install vagrant-docker-compose
+  ```
+
 ## Diseño arquitectura
 
 ### Arquitectura general
