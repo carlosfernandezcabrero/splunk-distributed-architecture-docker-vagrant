@@ -62,3 +62,26 @@ Para enviar datos a producción debemos configurar el parámetro `_TCP_ROUTING` 
 ### Enviar eventos a desarrollo
 
 Para enviar datos a desarrollo debemos configurar el parámetro `_TCP_ROUTING` con el valor `de_group` o no configurar lo para cada stanza que queramos que envié los datos al indexador de desarrollo. Por defecto los datos se envían al indexador de desarrollo a no ser que se especifique otra cosa.
+
+### Añadir peers al search head de desarrollo
+
+Por defecto el search head de desarrollo solo busca en el indexador de desarrollo. Si queremos añadir los indexadores de producción deberemos seguir los siguientes pasos:
+
++ Arrancar los indexadores de producción.
++ Acceder al search head de desarrollo.
++ Ir al directorio bin de Splunk.
++ Ejecutar el siguiente comando por cada indexador que queramos añadir como peer al search head de desarrollo:
+
+  ``` bash
+  ./splunk add search-server https://<IP-del-indexador>:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234
+  ```
+
+También podemos definir lo directamente en la sección `test-sh` del Dockerfile. El comando añadir sigue la misma estructura que el comentado anteriormente. Por ejemplo, si quiero añadir dos indexadores con las IPs `192.168.33.21` y `192.168.33.22`, el comando `CMD` del Dockerfile quedaría de la siguiente forma:
+
+``` Dockerfile
+CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt \
+&& /usr/local/splunk/bin/splunk add search-server https://192.168.33.5:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234 \
+&& /usr/local/splunk/bin/splunk add search-server https://192.168.33.21:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234 \
+&& /usr/local/splunk/bin/splunk add search-server https://192.168.33.22:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234 \
+&& tail -f /dev/null
+```
