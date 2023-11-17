@@ -15,6 +15,8 @@
 
 ![Alt text](images/general-archiecture.png)
 
+Las maquinas que se especifican no tienen instalado el software de Splunk, lo que tienen es corriendo un contenedor Docker en modo host con Splunk (salvo los forwarders que tiene un arquitectura mas compleja). Es decir, salvo los forwarders, cada maquina virtual creada con Vagrant esta compuesta por un contenedor Docker donde se ejecuta una instancia de Splunk con la configuración especifica y necesaria para la función que realiza dentro de la arquitectura. En próximas secciones se enseñara como levantar esta arquitectura.
+
 ### Arquitectura universal forwarders
 
 ![Alt text](images/uf-architecture.png)
