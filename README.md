@@ -31,7 +31,7 @@ Para añadir un indexador al cluster de indexadores de producción debemos modif
 
 Para añadir un search head al cluster de search heads de producción debemos modificar el fichero `shcluster_members.txt` que esta presente en la carpeta `files` dentro de la carpeta `common`. Deberemos añadir a este fichero una línea por cada search head que queramos añadir al cluster. Este línea debe contener exclusivamente la IP del servidor que debe contener el search head, precedida por `:`.
 
-### Indexar eventos con usando el servidor RabbitMQ de los forwarders
+### Indexar eventos usando el servidor RabbitMQ de los forwarders
 
 #### Diagrama
 
