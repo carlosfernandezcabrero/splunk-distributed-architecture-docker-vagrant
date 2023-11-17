@@ -48,4 +48,6 @@ Para enviar datos a producción o desarrollo, ver las dos secciones siguientes.
 
 ### Enviar eventos a producción
 
+Para enviar datos a producción debemos configurar el parámetro `_TCP_ROUTING` con el valor `pr_group` para cada stanza que queramos que envié los datos los indexadores de producción.
+
 ### Enviar eventos a desarrollo
