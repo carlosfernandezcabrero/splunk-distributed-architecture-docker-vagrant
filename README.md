@@ -78,6 +78,14 @@ Para manejar las maquinas virtuales o nodos aprovisionados/as con Vagrant revisa
 
 ***NOTA: Los comandos de Vagrant siempre se deben realizar en el directorio donde se encuentra el Vagranfile. Dependiendo de que parte queramos manejar deberemos realizar lo sobre una carpeta de la raíz del proyecto u otra. [Ver estructura de directorios](#estructura-de-los-directorios)***
 
+### Manejo de los contenedores docker dentro de las maquinas virtuales o nodos
+
+Para manejar los contenedores dentro de las maquinas virtuales o nodos utilizaremos los comandos habituales de Docker.
+
+En la mayoría de los nodos, si ejecutamos `docker ps` solo vamos un contenedor con una instancia de Splunk Enterprise corriendo configurada para operar según su función ([ver arquitectura por defecto](#arquitectura-general)).
+
+En el caso de los forwarders, tendremos tres contenedores corriendo tal y como se explica en la sección [Arquitectura universal forwarders](#arquitectura-universal-forwarders).
+
 ## Personalizar la arquitectura por defecto
 
 ### Añadir indexador al cluster de indexadores de producción
