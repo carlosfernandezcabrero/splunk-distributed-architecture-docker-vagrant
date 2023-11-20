@@ -1,5 +1,37 @@
 # Splunk Distributed Architecture
 
+## Tabla de contenidos
+
+- [Splunk Distributed Architecture](#splunk-distributed-architecture)
+  - [Tabla de contenidos](#tabla-de-contenidos)
+  - [Requisitos](#requisitos)
+  - [Arquitectura por defecto](#arquitectura-por-defecto)
+    - [Arquitectura general](#arquitectura-general)
+    - [Arquitectura universal forwarders](#arquitectura-universal-forwarders)
+    - [Estructura de los directorios](#estructura-de-los-directorios)
+  - [Uso](#uso)
+    - [Primera configuración](#primera-configuración)
+    - [Usuario y contraseña por defecto de las instancias Splunk](#usuario-y-contraseña-por-defecto-de-las-instancias-splunk)
+    - [Levantar arquitectura](#levantar-arquitectura)
+      - [Manejo de las maquinas virtuales o nodos](#manejo-de-las-maquinas-virtuales-o-nodos)
+    - [Manejo de los contenedores docker dentro de las maquinas virtuales o nodos](#manejo-de-los-contenedores-docker-dentro-de-las-maquinas-virtuales-o-nodos)
+  - [Personalizar la arquitectura por defecto](#personalizar-la-arquitectura-por-defecto)
+    - [Añadir indexador al cluster de indexadores de producción](#añadir-indexador-al-cluster-de-indexadores-de-producción)
+    - [Añadir miembro al cluster de search heads de producción](#añadir-miembro-al-cluster-de-search-heads-de-producción)
+    - [Añadir forwarder](#añadir-forwarder)
+    - [Añadir peers al search head de desarrollo](#añadir-peers-al-search-head-de-desarrollo)
+  - [Indexar eventos usando el servidor RabbitMQ de los forwarders](#indexar-eventos-usando-el-servidor-rabbitmq-de-los-forwarders)
+    - [Diagrama](#diagrama)
+    - [Explicación](#explicación)
+  - [Indexación de eventos](#indexación-de-eventos)
+    - [Indexar eventos en producción](#indexar-eventos-en-producción)
+    - [Indexar eventos en desarrollo](#indexar-eventos-en-desarrollo)
+  - [Preguntas frecuentes](#preguntas-frecuentes)
+  - [Contribuir](#contribuir)
+    - [✅ Cambios que se aceptaran](#-cambios-que-se-aceptaran)
+    - [❌ Cambios que no se aceptaran](#-cambios-que-no-se-aceptaran)
+    - [⬆️ Forma de contribuir](#️-forma-de-contribuir)
+
 ## Requisitos
 
 + Tener instalado [Vagrant](https://www.vagrantup.com/) ([instrucciones](https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-install?product_intent=vagrant)).
