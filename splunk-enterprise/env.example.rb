@@ -1,1 +1,1 @@
-ENV['RELEASE_URL'] =
+ENV['RELEASE_URL'] = ""
