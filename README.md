@@ -73,7 +73,9 @@ Las maquinas que se especifican no tienen instalado el software de Splunk, lo qu
   [Página de descargas Splunk Enterprise](https://www.splunk.com/en_us/download/splunk-enterprise.html)\
   [Página de descargas Universal Forwarder](https://www.splunk.com/en_us/download/universal-forwarder.html)
 
-### Manejo de las maquinas virtuales o nodos
+### Levantar arquitectura
+
+#### Manejo de las maquinas virtuales o nodos
 
 Para manejar las maquinas virtuales o nodos aprovisionados/as con Vagrant revisar la documentación referida a continuación:
 
