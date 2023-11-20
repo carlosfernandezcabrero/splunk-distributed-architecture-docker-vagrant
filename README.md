@@ -160,3 +160,28 @@ Para enviar datos a producción debemos configurar el parámetro `_TCP_ROUTING` 
 ### Indexar eventos en desarrollo
 
 Para enviar datos a desarrollo debemos configurar el parámetro `_TCP_ROUTING` con el valor `de_group` o no configurar lo para cada stanza que queramos que envié los datos al indexador de desarrollo. Por defecto los datos se envían al indexador de desarrollo a no ser que se especifique otra cosa.
+
+## Contribuir
+
+### ✅ Cambios que se aceptaran
+
++ Optimizaciones de código
++ Mejoras en el manejo de la arquitectura
++ Solución a errores a la hora de utilizarla
++ Errores o mejoras en el README
++ Traducciones en el README
++ Mejoras que hagan que a los usuarios les resulte mas fácil utilizar este proyecto
++ Actualización de los archivos `urls.txt` con nueva versiones
+
+### ❌ Cambios que no se aceptaran
+
++ Cambios que modifiquen la arquitectura por defecto del proyecto
++ Cambios que incluyan información sensible
++ Cambios que modifiquen el sentido del proyecto
++ Cambios no inclusivos con el usuario de los demás usuarios
+
+### ⬆️ Forma de contribuir
+
++ Hacer fork del proyecto.
++ Crear rama con el nombre del cambio.
++ Hacer pull request con el cambio desde la rama que hemos creado a la rama main de este repositorio.
