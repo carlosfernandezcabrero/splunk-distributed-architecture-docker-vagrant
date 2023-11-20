@@ -68,7 +68,7 @@ Las maquinas que se especifican no tienen instalado el software de Splunk, lo qu
   + Splunk Universal Forwarder\
   En la variable `RELEASE_URL`, entre comillas dobles, debemos asignar la ruta de descarga del paquete .tgz de la version que queramos utilizar de Splunk Universal Forwarder. Solo debemos añadir la parte de la url a partir de "<https://download.splunk.com/products/splunk/releases/>"
 
-  Para facilitar la configuración de la variable `RELEASE_URL`, en cada directorio donde hay un archivo llamado `env.example.rb`, hay un archivo llamado `urls.txt` con versiones que otros usuario han subido al repositorio. Para usarlas solo debemos copiar la url de la versión que queramos utilizar del archivo `urls.txt` y asignar se la a la variable `RELEASE_URL` en el archivo `env.rb` que hemos renombrado anteriormente.
+  Para facilitar la configuración de la variable `RELEASE_URL`, en cada directorio donde hay un archivo llamado `env.example.rb`, hay un archivo llamado `urls.txt` con versiones que otros usuario han subido al repositorio. Para usarlas solo debemos copiar la url de la versión que queramos utilizar del archivo `urls.txt` y asignar se la a la variable `RELEASE_URL` en el archivo `env.rb` que hemos renombrado anteriormente. Si la version de Splunk Enterprise o Splunk Universal Forwarder que buscas no esta en el archivo `urls.txt` correspondiente, crea una Pull Request para incluirla.
 
   [Página de descargas Splunk Enterprise](https://www.splunk.com/en_us/download/splunk-enterprise.html)\
   [Página de descargas Universal Forwarder](https://www.splunk.com/en_us/download/universal-forwarder.html)
@@ -83,7 +83,7 @@ Para manejar las maquinas virtuales o nodos aprovisionados/as con Vagrant revisa
 + Recrear un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-rebuild>
 + Derribar un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-teardown>
 
-***NOTA: Los comandos de Vagrant siempre se deben realizar en el directorio donde se encuentra el Vagranfile. Dependiendo de que parte queramos manejar deberemos realizar lo sobre una carpeta de la raíz del proyecto u otra. [Ver estructura de directorios](#estructura-de-los-directorios)***
+***NOTA: Los comandos de Vagrant siempre se deben realizar en el directorio donde se encuentra el Vagranfile. Dependiendo de que parte queramos manejar deberemos realizarlo sobre una carpeta de la raíz del proyecto u otra. [Ver estructura de directorios](#estructura-de-los-directorios)***
 
 ### Manejo de los contenedores docker dentro de las maquinas virtuales o nodos
 
@@ -103,6 +103,14 @@ Para añadir un indexador al cluster de indexadores de producción debemos modif
 
 Para añadir un search head al cluster de search heads de producción debemos modificar el fichero `shcluster_members.txt` que esta presente en la carpeta `files` dentro de la carpeta `common`. Deberemos añadir a este fichero una línea por cada search head que queramos añadir al cluster. Este línea debe contener exclusivamente la IP del servidor que debe contener el search head, precedida por `:`.
 
+Ademas, tenemos que añadir el nuevo search head al balanceador de carga. Para ello debemos modificar el fichero `nginx.conf` que se encuentra dentro de la carpeta `lb`. Deberemos añadir una nueva linea con la IP del nuevo search head dentro del bloque `upstream` con el siguiente formato:
+
+``` conf
+server <IP-nuevo-search-head>:8000
+```
+
+Dentro de este bloque deben estar presentes todas las IPs de los miembros del SHCluster de producción con el formato explicado anteriormente.
+
 ### Añadir forwarder
 
 Para añadir un forwarder debemos modificar el fichero `forwarders.txt` que esta presente en la carpeta `files` dentro de la carpeta `common`. Deberemos añadir a este fichero una línea por cada forwarder que queramos añadir. Este línea debe contener exclusivamente la IP del servidor que debe contener el forwarder, precedida por `:`.
@@ -120,7 +128,7 @@ Por defecto el search head de desarrollo solo busca en el indexador de desarroll
   ./splunk add search-server https://<IP-del-indexador>:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234
   ```
 
-También podemos definir lo directamente en la sección `test-sh` del Dockerfile situado dentro de la carpeta `splunk-enterprise`. El comando añadir sigue la misma estructura que el comentado anteriormente. Por ejemplo, si quiero añadir dos indexadores con las IPs `192.168.33.21` y `192.168.33.22`, el comando `CMD` del Dockerfile quedaría de la siguiente forma:
+También podemos definirlo directamente en la sección `test-sh` del Dockerfile situado dentro de la carpeta `splunk-enterprise`. El comando añadir sigue la misma estructura que el comentado anteriormente. Por ejemplo, si quiero añadir dos indexadores con las IPs `192.168.33.21` y `192.168.33.22`, el comando `CMD` del Dockerfile quedaría de la siguiente forma:
 
 ``` Dockerfile
 CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt \
@@ -166,7 +174,13 @@ Para enviar datos a producción debemos configurar el parámetro `_TCP_ROUTING` 
 
 ### Indexar eventos en desarrollo
 
-Para enviar datos a desarrollo debemos configurar el parámetro `_TCP_ROUTING` con el valor `de_group` o no configurar lo para cada stanza que queramos que envié los datos al indexador de desarrollo. Por defecto los datos se envían al indexador de desarrollo a no ser que se especifique otra cosa.
+Para enviar datos a desarrollo debemos configurar el parámetro `_TCP_ROUTING` con el valor `de_group` o no configurarlo para cada stanza que queramos que envié los datos al indexador de desarrollo. Por defecto los datos se envían al indexador de desarrollo a no ser que se especifique otra cosa.
+
+## Preguntas frecuentes
+
+Para añadir una pregunta nueva crea una issue.
+
+*No hay preguntas de momento*
 
 ## Contribuir
 
