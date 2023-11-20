@@ -21,6 +21,53 @@ Las maquinas que se especifican no tienen instalado el software de Splunk, lo qu
 
 ![Alt text](images/uf-architecture.png)
 
+### Estructura de los directorios
+
+``` bash
+.
+├── common              # Archivos comunes
+├── images              # Imágenes para el README
+├── lb                  # Balanceador de carga
+├── splunk-enterprise   # Core
+├── universal-forwarder # Forwarders
+```
+
++ common\
+  Ficheros comunes utilizados en resto del proyecto.
+
++ images\
+  Imágenes utilizadas para crear e README.
+
++ lb (192.168.33.4:80)\
+  Balanceador de carga para los search heads de producción.
+
++ splunk-enterprise\
+  En este directorio tenemos el Vagrantfile que crea las siguientes piezas de la arquitectura:
+
+  + Master
+  + Deployer
+  + Deployment Server
+  + Indexador de desarrollo
+  + Search head de desarrollo
+  + Heavy Forwarder
+  + Indexadores de producción
+  + Search heads de producción
+
++ universal-forwarder\
+  Forwarders
+
+## Uso
+
+### Primera configuración
+
++ Configurar las rutas de descarga de Splunk. Para ello debemos de renombrar los ficheros `env.example.rb` a `env.rb`.
+
+  + Splunk Enterprise\
+  Entre comillas dobles debemos la ruta de descarga del paquete .tgz de la version que queramos utilizar de Splunk Enterprise. Solo debemos añadir la parte de la url a partir de "<https://download.splunk.com/products/splunk/releases/>"
+
+  + Splunk Universal Forwarder\
+  Entre comillas dobles debemos la ruta de descarga del paquete .tgz de la version que queramos utilizar de Splunk Universal Forwarder. Solo debemos añadir la parte de la url a partir de "<https://download.splunk.com/products/splunk/releases/>"
+
 ## Personalizar la arquitectura por defecto
 
 ### Añadir indexador al cluster de indexadores de producción
@@ -71,7 +118,9 @@ Para enviar eventos al servidor RabbitMQ de los forwarders tenemos dos opciones:
 + Enviar eventos manualmente a el servidor RabbitMQ. Cuando digo "manualmente" me refiero usando cURL, un script custom, cualquier software, ...
 
 + Utilizar el script que se proporciona en este repositorio. Este script esta en la carpeta `rabbitmq` dentro de la carpeta `scripts`, dentro de la carpeta `universal-forwarder`. Antes de ejecutar este script debemos cumplir los siguientes requisitos:
+
   + Tener instalado en Python 3.
+
   + Instalar las librerías utilizadas. Para instalar las librerías debemos ejecutar `pip install -r requirements.txt`. Podemos instalar estas librerías y usar la version de Python 3 que tengamos instalada de manera global en el ordenador o crear un entorno virtual. La forma recomendad es crear un entorno virtual. Para crear un entorno virtual en Python podemos utilizar **virtualenv** ([Documentación](https://virtualenv.pypa.io/en/latest/index.html)).
 
   *Nota: Si se utiliza un entorno virtual, antes de lanzar el comando para ejecutar el script, habrá que activarlo.*
