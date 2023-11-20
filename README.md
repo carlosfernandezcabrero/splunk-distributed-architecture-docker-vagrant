@@ -68,6 +68,16 @@ Las maquinas que se especifican no tienen instalado el software de Splunk, lo qu
   + Splunk Universal Forwarder\
   Entre comillas dobles debemos la ruta de descarga del paquete .tgz de la version que queramos utilizar de Splunk Universal Forwarder. Solo debemos añadir la parte de la url a partir de "<https://download.splunk.com/products/splunk/releases/>"
 
+### Manejo de las maquinas virtuales o nodos
+
+Para manejar las maquinas virtuales o nodos aprovisionados/as con Vagrant revisar la documentación referida a continuación:
+
++ Iniciar un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-up>
++ Recrear un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-rebuild>
++ Derribar un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-teardown>
+
+***NOTA: Los comandos de Vagrant siempre se deben realizar en el directorio donde se encuentra el Vagranfile. Dependiendo de que parte queramos manejar deberemos realizar lo sobre una carpeta de la raíz del proyecto u otra. [Ver estructura de directorios](#estructura-de-los-directorios)***
+
 ## Personalizar la arquitectura por defecto
 
 ### Añadir indexador al cluster de indexadores de producción
