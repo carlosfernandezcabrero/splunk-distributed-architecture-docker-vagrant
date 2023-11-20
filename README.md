@@ -75,7 +75,7 @@ Las maquinas que se especifican no tienen instalado el software de Splunk, lo qu
 
 ### Usuario y contraseña por defecto de las instancias Splunk
 
-Por defecto todas las instancias de Splunk han sido iniciadas con el usuario `admin` y la contraseña `admin1234`. Si se quiere cambiar las credenciales, se deberá modificar el archivo user-seed.conf. Ademas, para que la arquitectura siga funcionando con normalidad se deberá modificar cualquier uso de estas en los archivos de este repositorio. También se deberán recrear aquellos nodos con instancias de Splunk afectadas.\
+Por defecto todas las instancias de Splunk han sido iniciadas con el usuario `admin` y la contraseña `admin1234`. Si se quiere cambiar las credenciales, se deberá modificar el archivo `user-seed.conf`. Ademas, para que la arquitectura siga funcionando con normalidad se deberá modificar cualquier uso de estas en los archivos de este repositorio. También se deberán recrear aquellos nodos con instancias de Splunk afectadas.\
 **Se dejan las puertas abiertas a cualquier sugerencia para simplificar este proceso**
 
 ### Levantar arquitectura
