@@ -21,6 +21,76 @@ Las maquinas que se especifican no tienen instalado el software de Splunk, lo qu
 
 ![Alt text](images/uf-architecture.png)
 
+### Estructura de los directorios
+
+``` bash
+.
+├── common              # Archivos comunes
+├── images              # Imágenes para el README
+├── lb                  # Balanceador de carga
+├── splunk-enterprise   # Core
+├── universal-forwarder # Forwarders
+```
+
++ common\
+  Ficheros comunes utilizados en resto del proyecto.
+
++ images\
+  Imágenes utilizadas para crear e README.
+
++ lb (192.168.33.4:80)\
+  Balanceador de carga para los search heads de producción.
+
++ splunk-enterprise\
+  En este directorio tenemos el Vagrantfile que crea las siguientes piezas de la arquitectura:
+
+  + Master
+  + Deployer
+  + Deployment Server
+  + Indexador de desarrollo
+  + Search head de desarrollo
+  + Heavy Forwarder
+  + Indexadores de producción
+  + Search heads de producción
+
++ universal-forwarder\
+  Forwarders
+
+## Uso
+
+### Primera configuración
+
++ Configurar las rutas de descarga de Splunk. Para ello debemos de renombrar los ficheros `env.example.rb` a `env.rb`.
+
+  + Splunk Enterprise\
+  En la variable `RELEASE_URL`, entre las comillas dobles, debemos asignar la ruta de descarga del paquete .tgz de la version que queramos utilizar de Splunk Enterprise. Solo debemos añadir la parte de la url a partir de "<https://download.splunk.com/products/splunk/releases/>"
+
+  + Splunk Universal Forwarder\
+  En la variable `RELEASE_URL`, entre comillas dobles, debemos asignar la ruta de descarga del paquete .tgz de la version que queramos utilizar de Splunk Universal Forwarder. Solo debemos añadir la parte de la url a partir de "<https://download.splunk.com/products/splunk/releases/>"
+
+  Para facilitar la configuración de la variable `RELEASE_URL`, en cada directorio donde hay un archivo llamado `env.example.rb`, hay un archivo llamado `urls.txt` con versiones que otros usuario han subido al repositorio. Para usarlas solo debemos copiar la url de la versión que queramos utilizar del archivo `urls.txt` y asignar se la a la variable `RELEASE_URL` en el archivo `env.rb` que hemos renombrado anteriormente.
+
+  [Página de descargas Splunk Enterprise](https://www.splunk.com/en_us/download/splunk-enterprise.html)\
+  [Página de descargas Universal Forwarder](https://www.splunk.com/en_us/download/universal-forwarder.html)
+
+### Manejo de las maquinas virtuales o nodos
+
+Para manejar las maquinas virtuales o nodos aprovisionados/as con Vagrant revisar la documentación referida a continuación:
+
++ Iniciar un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-up>
++ Recrear un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-rebuild>
++ Derribar un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-teardown>
+
+***NOTA: Los comandos de Vagrant siempre se deben realizar en el directorio donde se encuentra el Vagranfile. Dependiendo de que parte queramos manejar deberemos realizar lo sobre una carpeta de la raíz del proyecto u otra. [Ver estructura de directorios](#estructura-de-los-directorios)***
+
+### Manejo de los contenedores docker dentro de las maquinas virtuales o nodos
+
+Para manejar los contenedores dentro de las maquinas virtuales o nodos utilizaremos los comandos habituales de Docker.
+
+En la mayoría de los nodos, si ejecutamos `docker ps` solo vamos un contenedor con una instancia de Splunk Enterprise corriendo configurada para operar según su función ([ver arquitectura por defecto](#arquitectura-general)).
+
+En el caso de los forwarders, tendremos tres contenedores corriendo tal y como se explica en la sección [Arquitectura universal forwarders](#arquitectura-universal-forwarders).
+
 ## Personalizar la arquitectura por defecto
 
 ### Añadir indexador al cluster de indexadores de producción
@@ -71,7 +141,9 @@ Para enviar eventos al servidor RabbitMQ de los forwarders tenemos dos opciones:
 + Enviar eventos manualmente a el servidor RabbitMQ. Cuando digo "manualmente" me refiero usando cURL, un script custom, cualquier software, ...
 
 + Utilizar el script que se proporciona en este repositorio. Este script esta en la carpeta `rabbitmq` dentro de la carpeta `scripts`, dentro de la carpeta `universal-forwarder`. Antes de ejecutar este script debemos cumplir los siguientes requisitos:
+
   + Tener instalado en Python 3.
+
   + Instalar las librerías utilizadas. Para instalar las librerías debemos ejecutar `pip install -r requirements.txt`. Podemos instalar estas librerías y usar la version de Python 3 que tengamos instalada de manera global en el ordenador o crear un entorno virtual. La forma recomendad es crear un entorno virtual. Para crear un entorno virtual en Python podemos utilizar **virtualenv** ([Documentación](https://virtualenv.pypa.io/en/latest/index.html)).
 
   *Nota: Si se utiliza un entorno virtual, antes de lanzar el comando para ejecutar el script, habrá que activarlo.*
@@ -93,3 +165,28 @@ Para enviar datos a producción debemos configurar el parámetro `_TCP_ROUTING` 
 ### Indexar eventos en desarrollo
 
 Para enviar datos a desarrollo debemos configurar el parámetro `_TCP_ROUTING` con el valor `de_group` o no configurar lo para cada stanza que queramos que envié los datos al indexador de desarrollo. Por defecto los datos se envían al indexador de desarrollo a no ser que se especifique otra cosa.
+
+## Contribuir
+
+### ✅ Cambios que se aceptaran
+
++ Optimizaciones de código
++ Mejoras en el manejo de la arquitectura
++ Solución a errores a la hora de utilizarla
++ Errores o mejoras en el README
++ Traducciones en el README
++ Mejoras que hagan que a los usuarios les resulte mas fácil utilizar este proyecto
++ Actualización de los archivos `urls.txt` con nueva versiones
+
+### ❌ Cambios que no se aceptaran
+
++ Cambios que modifiquen la arquitectura por defecto del proyecto
++ Cambios que incluyan información sensible
++ Cambios que modifiquen el sentido del proyecto
++ Cambios no inclusivos con el usuario de los demás usuarios
+
+### ⬆️ Forma de contribuir
+
++ Hacer fork del proyecto.
++ Crear rama con el nombre del cambio.
++ Hacer pull request con el cambio desde la rama que hemos creado a la rama main de este repositorio.

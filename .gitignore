@@ -7,3 +7,4 @@ build/
 *.log
 !common/downloads/.gitkeep
 *.tgz
+env.rb
