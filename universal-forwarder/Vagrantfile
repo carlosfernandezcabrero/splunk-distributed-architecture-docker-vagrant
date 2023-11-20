@@ -49,13 +49,18 @@ Vagrant.configure("2") do |config|
   config.vm.provision :docker_compose, after: :all, yml: "/tmp/docker-compose.yml", run: "always"
 
 
-  (1..1).each do |i|
-    config.vm.define "uf#{i}" do |uf|
-      uf.vm.network :private_network, ip: "192.168.33.3#{i}"
-      uf.vm.provider :virtualbox do |vb|
-        vb.name = "splunk-uf-#{i}"
+  File.open('../common/files/forwarders.txt') do |f|
+    f.each_line do |server|
+      server = server = server.gsub("\n","").gsub("\r","").gsub(" ","").gsub(":", "")
+      num_idx = server[-1]
+
+      config.vm.define "uf#{num_idx}" do |uf|
+        uf.vm.network :private_network, ip: "#{server}"
+        uf.vm.provider :virtualbox do |vb|
+          vb.name = "splunk-uf-#{num_idx}"
+        end
+        uf.vm.provision "server.conf", type: "shell", path: "../common/configs/server.py", args: "splunk_uf_#{num_idx} /tmp/uf/server.conf"
       end
-      uf.vm.provision "server.conf", type: "shell", path: "../common/configs/server.py", args: "splunk_uf_#{i} /tmp/uf/server.conf"
     end
   end
 end
