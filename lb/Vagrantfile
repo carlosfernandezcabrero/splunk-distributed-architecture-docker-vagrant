@@ -30,6 +30,7 @@ Vagrant.configure("2") do |config|
         pip3 install python-nginx
     SHELL
 
+    config.vm.provision "install_docker", before: :all, path: "../common/scripts/install_docker.sh", type: "shell"
     config.vm.provision "nginx.conf", type: "shell", path: "./nginx.py"
 
     config.vm.provision "docker" do |d|
