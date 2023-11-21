@@ -187,6 +187,12 @@ CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt
 
 Para eliminar nodos primero ejecutar `vagrant destroy` del nodo y luego borrar la IP del nodo del archivo .txt correspondiente.
 
+Según que nodo se elimine habrá que recrear los siguientes nodos:
+| Nodo eliminado            | Nodos a recrear                                                    |
+| ------------------------- | ------------------------------------------------------------------ |
+| Search head de producción | Recrear load balancer y todos los demás search heads de producción |
+| Indexador de producción   | Recrear forwarders y heavy forwarder                               |
+
 ## Indexar eventos usando el servidor RabbitMQ de los forwarders
 
 ### Diagrama
