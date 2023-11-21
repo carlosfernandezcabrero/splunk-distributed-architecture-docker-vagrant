@@ -192,6 +192,10 @@ CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt
 && tail -f /dev/null
 ```
 
+### Eliminar nodos
+
+Para eliminar nodos primero ejecutar `vagrant destroy` del nodo y luego borrar la IP del nodo del archivo .txt correspondiente.
+
 ## Indexar eventos usando el servidor RabbitMQ de los forwarders
 
 ### Diagrama
