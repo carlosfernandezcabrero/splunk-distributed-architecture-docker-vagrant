@@ -156,14 +156,6 @@ Para añadir un indexador al cluster de indexadores de producción debemos modif
 
 Para añadir un search head al cluster de search heads de producción debemos modificar el fichero `shcluster_members.txt` que esta presente en la carpeta `files` dentro de la carpeta `common`. Deberemos añadir a este fichero una línea por cada search head que queramos añadir al cluster. Este línea debe contener exclusivamente la IP del servidor que debe contener el search head, precedida por `:`.
 
-Ademas, tenemos que añadir el nuevo search head al balanceador de carga. Para ello debemos modificar el fichero `nginx.conf` que se encuentra dentro de la carpeta `lb`. Deberemos añadir una nueva linea con la IP del nuevo search head dentro del bloque `upstream` con el siguiente formato:
-
-``` conf
-server <IP-nuevo-search-head>:8000
-```
-
-Dentro de este bloque deben estar presentes todas las IPs de los miembros del SHCluster de producción con el formato explicado anteriormente.
-
 ### Añadir forwarder
 
 Para añadir un forwarder debemos modificar el fichero `forwarders.txt` que esta presente en la carpeta `files` dentro de la carpeta `common`. Deberemos añadir a este fichero una línea por cada forwarder que queramos añadir. Este línea debe contener exclusivamente la IP del servidor que debe contener el forwarder, precedida por `:`.
