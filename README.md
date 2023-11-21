@@ -132,6 +132,19 @@ En la mayoría de los nodos, si ejecutamos `docker ps` solo vamos un contenedor 
 
 En el caso de los forwarders, tendremos tres contenedores corriendo tal y como se explica en la sección [Arquitectura universal forwarders](#arquitectura-universal-forwarders).
 
+### Levantar nodos específicos
+
+| Nodo                   | Comando             | Directorio donde realizarlo |
+| ---------------------- | ------------------- | --------------------------- |
+| Manager                | vagrant up manager  | splunk-enterprise           |
+| Search head desarrollo | vagrant up test_sh  | splunk-enterprise           |
+| Indice desarrollo      | vagrant up test_idx | splunk-enterprise           |
+| Heavy Forwarder        | vagrant up hf       | splunk-enterprise           |
+| Balanceador de carga   | vagrant up lb       | lb                          |
+| Universal Forwarders   | vagrant up uf[num]  | universal-forwarder         |
+| Search head producción | vagrant up sh[num]  | splunk-enterprise           |
+| Indice producción      | vagrant up idx[num] | splunk-enterprise           |
+
 ## Personalizar la arquitectura por defecto
 
 ### Añadir indexador al cluster de indexadores de producción
