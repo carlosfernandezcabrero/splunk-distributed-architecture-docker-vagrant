@@ -13,15 +13,15 @@
     - [Primera configuración](#primera-configuración)
     - [Usuario y contraseña por defecto de las instancias Splunk](#usuario-y-contraseña-por-defecto-de-las-instancias-splunk)
     - [Levantar arquitectura](#levantar-arquitectura)
-      - [Manejo de las maquinas virtuales o nodos](#manejo-de-las-maquinas-virtuales-o-nodos)
-    - [Manejo de los contenedores docker dentro de las maquinas virtuales o nodos](#manejo-de-los-contenedores-docker-dentro-de-las-maquinas-virtuales-o-nodos)
-    - [Levantar nodos específicos](#levantar-nodos-específicos)
+      - [Manejo de servidores aprovisionados con Vagrant](#manejo-de-servidores-aprovisionados-con-vagrant)
+    - [Manejo de los contenedores Docker dentro de los servidores](#manejo-de-los-contenedores-docker-dentro-de-los-servidores)
+    - [Levantar servidores específicos](#levantar-servidores-específicos)
   - [Personalizar la arquitectura por defecto](#personalizar-la-arquitectura-por-defecto)
     - [Añadir indexador al cluster de indexadores de producción](#añadir-indexador-al-cluster-de-indexadores-de-producción)
     - [Añadir miembro al cluster de search heads de producción](#añadir-miembro-al-cluster-de-search-heads-de-producción)
     - [Añadir forwarder](#añadir-forwarder)
     - [Añadir peers al search head de desarrollo](#añadir-peers-al-search-head-de-desarrollo)
-    - [Eliminar nodos](#eliminar-nodos)
+    - [Eliminar servidores aprovisionados con Vagrant](#eliminar-servidores-aprovisionados-con-vagrant)
   - [Indexar eventos usando el servidor RabbitMQ de los forwarders](#indexar-eventos-usando-el-servidor-rabbitmq-de-los-forwarders)
     - [Diagrama](#diagrama)
     - [Explicación](#explicación)
@@ -51,7 +51,7 @@
 
 ![Alt text](images/general-archiecture.png)
 
-Las maquinas que se especifican no tienen instalado el software de Splunk, lo que tienen es corriendo un contenedor Docker en modo host con Splunk (salvo los forwarders que tiene un arquitectura mas compleja). Es decir, salvo los forwarders, cada nodo es una maquina virtual creada con Vagrant compuesta por un contenedor Docker donde se ejecuta una instancia de Splunk con la configuración especifica y necesaria para la función que realiza dentro de la arquitectura. En próximas secciones se enseñara como levantar esta arquitectura.
+Los servidores que se especifican no tienen instalado el software de Splunk, lo que tienen es corriendo un contenedor Docker en modo host con Splunk (salvo los forwarders que tiene un arquitectura mas compleja). Es decir, salvo los forwarders, cada servidor creado con Vagrant compuesta por un contenedor Docker donde se ejecuta una instancia de Splunk con la configuración especifica y necesaria para la función que realiza dentro de la arquitectura. En próximas secciones se enseñara como levantar esta arquitectura.
 
 ### Arquitectura universal forwarders
 
@@ -111,13 +111,13 @@ Las maquinas que se especifican no tienen instalado el software de Splunk, lo qu
 
 ### Usuario y contraseña por defecto de las instancias Splunk
 
-Por defecto todas las instancias de Splunk han sido iniciadas con el usuario `admin` y la contraseña `admin1234`. Si se quiere cambiar las credenciales, se deberá modificar el archivo `user-seed.conf`. Ademas, para que la arquitectura siga funcionando con normalidad se deberá modificar cualquier uso de estas en los archivos de este repositorio. También se deberán recrear aquellos nodos con instancias de Splunk afectadas.\
+Por defecto todas las instancias de Splunk han sido iniciadas con el usuario `admin` y la contraseña `admin1234`. Si se quiere cambiar las credenciales, se deberá modificar el archivo `user-seed.conf`. También se deberán recrear aquellos servidores con instancias de Splunk afectadas.\
 
 ### Levantar arquitectura
 
-#### Manejo de las maquinas virtuales o nodos
+#### Manejo de servidores aprovisionados con Vagrant
 
-Para manejar las maquinas virtuales o nodos aprovisionados/as con Vagrant revisar la documentación referida a continuación:
+Para manejar los servidores aprovisionados/as con Vagrant revisar la documentación referida a continuación:
 
 - Iniciar un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-up>
 - Recrear un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-rebuild>
@@ -125,15 +125,15 @@ Para manejar las maquinas virtuales o nodos aprovisionados/as con Vagrant revisa
 
 ***NOTA: Los comandos de Vagrant siempre se deben realizar en el directorio donde se encuentra el Vagranfile. Dependiendo de que parte queramos manejar deberemos realizarlo sobre una carpeta de la raíz del proyecto u otra. [Ver estructura de directorios](#estructura-de-los-directorios)***
 
-### Manejo de los contenedores docker dentro de las maquinas virtuales o nodos
+### Manejo de los contenedores Docker dentro de los servidores
 
-Para manejar los contenedores dentro de las maquinas virtuales o nodos utilizaremos los comandos habituales de Docker.
+Para manejar los contenedores dentro de los servidores utilizaremos los comandos habituales de Docker.
 
-En la mayoría de los nodos, si ejecutamos `docker ps` solo vamos un contenedor con una instancia de Splunk Enterprise corriendo configurada para operar según su función ([ver arquitectura por defecto](#arquitectura-general)).
+En la mayoría de servidores, si ejecutamos `docker ps` solo vamos un contenedor con una instancia de Splunk Enterprise corriendo configurada para operar según su función ([ver arquitectura por defecto](#arquitectura-general)).
 
 En el caso de los forwarders, tendremos tres contenedores corriendo tal y como se explica en la sección [Arquitectura universal forwarders](#arquitectura-universal-forwarders).
 
-### Levantar nodos específicos
+### Levantar servidores específicos
 
 | Nodo                   | Comando             | Directorio donde realizarlo |
 | ---------------------- | ------------------- | --------------------------- |
@@ -183,11 +183,11 @@ CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt
 && tail -f /dev/null
 ```
 
-### Eliminar nodos
+### Eliminar servidores aprovisionados con Vagrant
 
-Para eliminar nodos primero ejecutar `vagrant destroy` del nodo y luego borrar la IP del nodo del archivo .txt correspondiente.
+Para eliminar un servidor primero debemos ejecutar `vagrant destroy` del servidor y luego borrar la IP del servidor en el archivo .txt correspondiente.
 
-Según que nodo se elimine habrá que recrear los siguientes nodos:
+Según que servidor se elimine habrá que recrear los siguientes servidores:
 | Nodo eliminado            | Nodos a recrear                                                    |
 | ------------------------- | ------------------------------------------------------------------ |
 | Search head de producción | Recrear load balancer y todos los demás search heads de producción |
@@ -217,7 +217,7 @@ Para enviar eventos al servidor RabbitMQ de los forwarders tenemos dos opciones:
 
 Para indexar los eventos que enviamos debemos configurar una `Serverclass` con una aplicación que contenga un monitor hacia el archivo con el nombre de la exchange con los mensajes que queramos indexar. Este archivo tiene la extension `.log`. Ademas deberemos añadir a la `Serverclass` los forwarders a los que queramos desplegar la aplicación, es decir, a los clientes de los que queremos indexar datos.
 
-Para definir la `Serverclass` deberemos ir al master node que se encuentra en la maquina con IP `192.168.33.2` y puerto `8000`.
+Para definir la `Serverclass` deberemos ir al master node que se encuentra en el servidor con IP `192.168.33.2` y puerto `8000`.
 
 Para enviar datos a producción o desarrollo, ver las dos secciones siguientes.
 
