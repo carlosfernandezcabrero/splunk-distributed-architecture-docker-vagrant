@@ -1,4 +1,4 @@
-FROM centos:centos7 as splunk-enterprise
+FROM python:3.12-slim as splunk-enterprise
 
 ENV TZ="Europe/Madrid"
 
@@ -10,6 +10,8 @@ WORKDIR /usr/local/splunk/etc
 COPY server.conf system/local
 COPY splunk-launch.conf .
 COPY user-seed.conf system/local
+
+RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
 
 CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt \
 	&& tail -f /dev/null
