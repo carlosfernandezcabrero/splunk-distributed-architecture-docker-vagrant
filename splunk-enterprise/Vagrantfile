@@ -63,12 +63,12 @@ Vagrant.configure("2") do |config|
     servers = f.read
     num_servers = servers.split(/:/).size - 1
 
-    servers.split(/\n/) do |server|
+    servers.each_line.with_index do |server, index|
       server = server.gsub("\n","").gsub("\r","").gsub(" ","").gsub(":", "")
-      num_idx = server[-1]
+      num_idx = index + 1
 
       target = "splunk-enterprise"
-      if num_idx.to_i == num_servers
+      if num_idx == num_servers
         target = "shcluster-captain"
       end
 
@@ -121,9 +121,9 @@ Vagrant.configure("2") do |config|
   end
 
   File.open('../common/files/indexers.txt') do |f|
-    f.each_line do |server|
+    f.each_line.with_index do |server, index|
       server = server = server.gsub("\n","").gsub("\r","").gsub(" ","").gsub(":", "")
-      num_idx = server[-1]
+      num_idx = index + 1
 
       config.vm.define "idx#{num_idx}" do |idx|
         idx.vm.network :private_network, ip: "#{server}"
