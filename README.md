@@ -135,7 +135,7 @@ En el caso de los forwarders, tendremos tres contenedores corriendo tal y como s
 
 ### Levantar servidores específicos
 
-| Nodo                   | Comando             | Directorio donde realizarlo |
+| Servidor               | Comando             | Directorio donde realizarlo |
 | ---------------------- | ------------------- | --------------------------- |
 | Manager                | vagrant up manager  | splunk-enterprise           |
 | Search head desarrollo | vagrant up test_sh  | splunk-enterprise           |
@@ -188,7 +188,7 @@ CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt
 Para eliminar un servidor primero debemos ejecutar `vagrant destroy` del servidor y luego borrar la IP del servidor en el archivo .txt correspondiente.
 
 Según que servidor se elimine habrá que recrear los siguientes servidores:
-| Nodo eliminado            | Nodos a recrear                                                    |
+| Servidor eliminado        | Servidores a recrear                                               |
 | ------------------------- | ------------------------------------------------------------------ |
 | Search head de producción | Recrear load balancer y todos los demás search heads de producción |
 | Indexador de producción   | Recrear forwarders y heavy forwarder                               |
