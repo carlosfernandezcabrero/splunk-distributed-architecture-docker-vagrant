@@ -36,14 +36,14 @@
 
 ## Requisitos
 
-+ Tener instalado [Vagrant](https://www.vagrantup.com/) ([instrucciones](https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-install?product_intent=vagrant)).
-+ Instalar el provider de Docker Compose para Vagrant.
+- Tener instalado [Vagrant](https://www.vagrantup.com/) ([instrucciones](https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-install?product_intent=vagrant)).
+- Instalar el provider de Docker Compose para Vagrant.
 
   ``` bash
   vagrant plugin install vagrant-docker-compose
   ```
 
-+ Se recomienda utilizar este repositorio en un sistema operativo basado en UNIX ya que su desarrollado se ha realizado en uno basado en el. Cualquier problema en un sistema operativo Windows, por favor, abrir una issue para corregirlo.
+- Se recomienda utilizar este repositorio en un sistema operativo basado en UNIX ya que su desarrollado se ha realizado en uno basado en el. Cualquier problema en un sistema operativo Windows, por favor, abrir una issue para corregirlo.
 
 ## Arquitectura por defecto
 
@@ -68,40 +68,40 @@ Las maquinas que se especifican no tienen instalado el software de Splunk, lo qu
 ├── universal-forwarder # Forwarders
 ```
 
-+ common\
+- common\
   Ficheros comunes utilizados en resto del proyecto.
 
-+ images\
+- images\
   Imágenes utilizadas para crear e README.
 
-+ lb (192.168.33.4:80)\
+- lb (192.168.33.4:80)\
   Balanceador de carga para los search heads de producción.
 
-+ splunk-enterprise\
+- splunk-enterprise\
   En este directorio tenemos el Vagrantfile que crea las siguientes piezas de la arquitectura:
 
-  + Master
-  + Deployer
-  + Deployment Server
-  + Indexador de desarrollo
-  + Search head de desarrollo
-  + Heavy Forwarder
-  + Indexadores de producción
-  + Search heads de producción
+  - Master
+  - Deployer
+  - Deployment Server
+  - Indexador de desarrollo
+  - Search head de desarrollo
+  - Heavy Forwarder
+  - Indexadores de producción
+  - Search heads de producción
 
-+ universal-forwarder\
+- universal-forwarder\
   Forwarders
 
 ## Uso
 
 ### Primera configuración
 
-+ Configurar las rutas de descarga de Splunk. Para ello debemos de renombrar los ficheros `env.example.rb` a `env.rb`.
+- Configurar las rutas de descarga de Splunk. Para ello debemos de renombrar los ficheros `env.example.rb` a `env.rb`.
 
-  + Splunk Enterprise\
+  - Splunk Enterprise\
   En la variable `RELEASE_URL`, entre las comillas dobles, debemos asignar la ruta de descarga del paquete .tgz de la version que queramos utilizar de Splunk Enterprise. Solo debemos añadir la parte de la url a partir de "<https://download.splunk.com/products/splunk/releases/>"
 
-  + Splunk Universal Forwarder\
+  - Splunk Universal Forwarder\
   En la variable `RELEASE_URL`, entre comillas dobles, debemos asignar la ruta de descarga del paquete .tgz de la version que queramos utilizar de Splunk Universal Forwarder. Solo debemos añadir la parte de la url a partir de "<https://download.splunk.com/products/splunk/releases/>"
 
   Para facilitar la configuración de la variable `RELEASE_URL`, en cada directorio donde hay un archivo llamado `env.example.rb`, hay un archivo llamado `urls.txt` con versiones que otros usuario han subido al repositorio. Para usarlas solo debemos copiar la url de la versión que queramos utilizar del archivo `urls.txt` y asignar se la a la variable `RELEASE_URL` en el archivo `env.rb` que hemos renombrado anteriormente. Si la version de Splunk Enterprise o Splunk Universal Forwarder que buscas no esta en el archivo `urls.txt` correspondiente, crea una Pull Request para incluirla.
@@ -120,9 +120,9 @@ Por defecto todas las instancias de Splunk han sido iniciadas con el usuario `ad
 
 Para manejar las maquinas virtuales o nodos aprovisionados/as con Vagrant revisar la documentación referida a continuación:
 
-+ Iniciar un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-up>
-+ Recrear un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-rebuild>
-+ Derribar un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-teardown>
+- Iniciar un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-up>
+- Recrear un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-rebuild>
+- Derribar un entorno: <https://developer.hashicorp.com/vagrant/tutorials/getting-started/getting-started-teardown>
 
 ***NOTA: Los comandos de Vagrant siempre se deben realizar en el directorio donde se encuentra el Vagranfile. Dependiendo de que parte queramos manejar deberemos realizarlo sobre una carpeta de la raíz del proyecto u otra. [Ver estructura de directorios](#estructura-de-los-directorios)***
 
@@ -173,10 +173,10 @@ Para añadir un forwarder debemos modificar el fichero `forwarders.txt` que esta
 
 Por defecto el search head de desarrollo solo busca en el indexador de desarrollo. Si queremos añadir los indexadores de producción deberemos seguir los siguientes pasos:
 
-+ Arrancar los indexadores de producción.
-+ Acceder al search head de desarrollo.
-+ Ir al directorio bin de Splunk.
-+ Ejecutar el siguiente comando por cada indexador que queramos añadir como peer al search head de desarrollo:
+- Arrancar los indexadores de producción.
+- Acceder al search head de desarrollo.
+- Ir al directorio bin de Splunk.
+- Ejecutar el siguiente comando por cada indexador que queramos añadir como peer al search head de desarrollo:
 
   ``` bash
   ./splunk add search-server https://<IP-del-indexador>:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234
@@ -206,13 +206,13 @@ Para eliminar nodos primero ejecutar `vagrant destroy` del nodo y luego borrar l
 
 Para enviar eventos al servidor RabbitMQ de los forwarders tenemos dos opciones:
 
-+ Enviar eventos manualmente a el servidor RabbitMQ. Cuando digo "manualmente" me refiero usando cURL, un script custom, cualquier software, ...
+- Enviar eventos manualmente a el servidor RabbitMQ. Cuando digo "manualmente" me refiero usando cURL, un script custom, cualquier software, ...
 
-+ Utilizar el script que se proporciona en este repositorio. Este script esta en la carpeta `rabbitmq` dentro de la carpeta `scripts`, dentro de la carpeta `universal-forwarder`. Antes de ejecutar este script debemos cumplir los siguientes requisitos:
+- Utilizar el script que se proporciona en este repositorio. Este script esta en la carpeta `rabbitmq` dentro de la carpeta `scripts`, dentro de la carpeta `universal-forwarder`. Antes de ejecutar este script debemos cumplir los siguientes requisitos:
 
-  + Tener instalado en Python 3.
+  - Tener instalado en Python 3.
 
-  + Instalar las librerías utilizadas. Para instalar las librerías debemos ejecutar `pip install -r requirements.txt`. Podemos instalar estas librerías y usar la version de Python 3 que tengamos instalada de manera global en el ordenador o crear un entorno virtual. La forma recomendad es crear un entorno virtual. Para crear un entorno virtual en Python podemos utilizar **virtualenv** ([Documentación](https://virtualenv.pypa.io/en/latest/index.html)).
+  - Instalar las librerías utilizadas. Para instalar las librerías debemos ejecutar `pip install -r requirements.txt`. Podemos instalar estas librerías y usar la version de Python 3 que tengamos instalada de manera global en el ordenador o crear un entorno virtual. La forma recomendad es crear un entorno virtual. Para crear un entorno virtual en Python podemos utilizar **virtualenv** ([Documentación](https://virtualenv.pypa.io/en/latest/index.html)).
 
   *Nota: Si se utiliza un entorno virtual, antes de lanzar el comando para ejecutar el script, habrá que activarlo.*
 
@@ -244,23 +244,23 @@ Para añadir una pregunta nueva crea una issue.
 
 ### ✅ Cambios que se aceptaran
 
-+ Optimizaciones de código
-+ Mejoras en el manejo de la arquitectura
-+ Solución a errores a la hora de utilizarla
-+ Errores o mejoras en el README
-+ Traducciones en el README
-+ Mejoras que hagan que a los usuarios les resulte mas fácil utilizar este proyecto
-+ Actualización de los archivos `urls.txt` con nueva versiones
+- Optimizaciones de código
+- Mejoras en el manejo de la arquitectura
+- Solución a errores a la hora de utilizarla
+- Errores o mejoras en el README
+- Traducciones en el README
+- Mejoras que hagan que a los usuarios les resulte mas fácil utilizar este proyecto
+- Actualización de los archivos `urls.txt` con nueva versiones
 
 ### ❌ Cambios que no se aceptaran
 
-+ Cambios que modifiquen la arquitectura por defecto del proyecto
-+ Cambios que incluyan información sensible
-+ Cambios que modifiquen el sentido del proyecto
-+ Cambios no inclusivos con el usuario de los demás usuarios
+- Cambios que modifiquen la arquitectura por defecto del proyecto
+- Cambios que incluyan información sensible
+- Cambios que modifiquen el sentido del proyecto
+- Cambios no inclusivos con el usuario de los demás usuarios
 
 ### ⬆️ Forma de contribuir
 
-+ Hacer fork del proyecto.
-+ Crear rama con el nombre del cambio.
-+ Hacer pull request con el cambio desde la rama que hemos creado a la rama main de este repositorio.
+- Hacer fork del proyecto.
+- Crear rama con el nombre del cambio.
+- Hacer pull request con el cambio desde la rama que hemos creado a la rama main de este repositorio.
