@@ -29,8 +29,9 @@ COPY inputs.conf etc/system/local/inputs.conf
 
 
 FROM splunk-enterprise as test-sh
-CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt \
-	&& /usr/local/splunk/bin/splunk add search-server https://192.168.33.5:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234 \
+WORKDIR /tmp
+COPY bootstrap_test_sh.py .
+CMD python bootstrap_test_sh.py \
 	&& tail -f /dev/null
 
 
