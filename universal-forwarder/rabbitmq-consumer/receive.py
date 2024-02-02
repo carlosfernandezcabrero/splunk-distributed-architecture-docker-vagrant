@@ -8,11 +8,12 @@ from dotenv import load_dotenv
 
 load_dotenv(dotenv_path=".env")
 LOGS_PATH = os.getenv("LOGS_PATH")
+LOGS_PATH = LOGS_PATH if LOGS_PATH else "/tmp"
 
 
 def write_message(ch, method, properties, body):
     file = open(
-        os.path.join(LOGS_PATH if LOGS_PATH else "/tmp", f"{method.exchange}.log"), "a"
+        os.path.join(LOGS_PATH, f"{method.exchange}.log"), "a"
     )
     file.write(body.decode() + "\n")
     file.close()
