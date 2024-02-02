@@ -11,7 +11,7 @@ COPY server.conf system/local
 COPY splunk-launch.conf .
 COPY user-seed.conf system/local
 
-RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y procps vim && rm -rf /var/lib/apt/lists/*
 
 CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt \
 	&& tail -f /dev/null
