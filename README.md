@@ -109,6 +109,8 @@ Los servidores que se especifican no tienen instalado el software de Splunk, lo 
   [Página de descargas Splunk Enterprise](https://www.splunk.com/en_us/download/splunk-enterprise.html)\
   [Página de descargas Universal Forwarder](https://www.splunk.com/en_us/download/universal-forwarder.html)
 
+- (Opcional) Configurar archivo `.env` para el broker de RabbitMQ que se levanta en cada maquina de de Universal Forwarder. Para ello debemos renombrar el fichero `.env.example` que se encuentra dentro de la carpeta `rabbitmq-consumer` en el directorio `universal-forwarder` a `.env`. En este archivo deberemos configurar la variable `LOGS_PATH` con la ruta donde queremos que el consumidor del broker RabbitMQ escriba los eventos que consuma. **Si este paso no se realiza por defecto los dejara en el directorio `/tmp`.
+
 ### Usuario y contraseña por defecto de las instancias Splunk
 
 Por defecto todas las instancias de Splunk han sido iniciadas con el usuario `admin` y la contraseña `admin1234`. Si se quiere cambiar las credenciales, se deberá modificar el archivo `user-seed.conf`. También se deberán recrear aquellos servidores con instancias de Splunk afectadas.\
