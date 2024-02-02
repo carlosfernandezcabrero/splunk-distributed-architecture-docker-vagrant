@@ -208,6 +208,8 @@ Para enviar eventos al servidor RabbitMQ de los forwarders tenemos dos opciones:
 
 - Utilizar el script que se proporciona en este repositorio. Este script esta en la carpeta `rabbitmq` dentro de la carpeta `scripts`, dentro de la carpeta `universal-forwarder`. Antes de ejecutar este script debemos cumplir los siguientes requisitos:
 
+  - Renombrar el archivo `.env.example` a `.env` y rellenar la variable `RABBITMQ_SERVER` con la IP del forwarder donde esta ubicado el broker RabbitMQ a donde queremos enviar los eventos generados con el script.
+
   - Tener instalado en Python 3.
 
   - Instalar las librerías utilizadas. Para instalar las librerías debemos ejecutar `pip install -r requirements.txt`. Podemos instalar estas librerías y usar la version de Python 3 que tengamos instalada de manera global en el ordenador o crear un entorno virtual. La forma recomendad es crear un entorno virtual. Para crear un entorno virtual en Python podemos utilizar **virtualenv** ([Documentación](https://virtualenv.pypa.io/en/latest/index.html)).
