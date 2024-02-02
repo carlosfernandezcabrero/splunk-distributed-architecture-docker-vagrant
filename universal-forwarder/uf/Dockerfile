@@ -4,7 +4,7 @@ ENV TZ="Europe/Madrid"
 
 WORKDIR /usr/local/splunk_forwarder
 COPY universalforwarder.tgz .
-RUN tar -xzf universalforwarder.tgz && rm universalforwarder.tgz 
+RUN tar -xzf universalforwarder.tgz && rm universalforwarder.tgz \ 
     && apt-get update && apt-get install -y procps vim && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/local/splunk_forwarder/splunkforwarder
