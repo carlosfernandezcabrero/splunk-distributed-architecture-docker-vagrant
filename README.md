@@ -222,7 +222,7 @@ Para indexar los eventos que enviamos debemos configurar una `Serverclass` con u
 
 Para definir la `Serverclass` deberemos ir al master node que se encuentra en el servidor con IP `192.168.33.2` y puerto `8000`.
 
-Para enviar datos a producción o desarrollo, ver las dos secciones siguientes.
+Para enviar datos a producción o desarrollo, ver la sección siguiente.
 
 ## Indexación de eventos
 
