@@ -109,8 +109,6 @@ Los servidores que se especifican no tienen instalado el software de Splunk, lo 
   [Página de descargas Splunk Enterprise](https://www.splunk.com/en_us/download/splunk-enterprise.html)\
   [Página de descargas Universal Forwarder](https://www.splunk.com/en_us/download/universal-forwarder.html)
 
-- (Opcional) Configurar archivo `.env` para el broker de RabbitMQ que se levanta en cada maquina de de Universal Forwarder. Para ello debemos renombrar el fichero `.env.example` que se encuentra dentro de la carpeta `rabbitmq-consumer` en el directorio `universal-forwarder` a `.env`. En este archivo deberemos configurar la variable `LOGS_PATH` con la ruta donde queremos que el consumidor del broker RabbitMQ escriba los eventos que consuma. **Si este paso no se realiza por defecto los dejara en el directorio `/tmp`.**
-
 ### Usuario y contraseña por defecto de las instancias Splunk
 
 Por defecto todas las instancias de Splunk han sido iniciadas con el usuario `admin` y la contraseña `admin1234`. Si se quiere cambiar las credenciales, se deberá modificar el archivo `user-seed.conf`. También se deberán recrear aquellos servidores con instancias de Splunk afectadas.\
@@ -218,7 +216,7 @@ Para enviar eventos al servidor RabbitMQ de los forwarders tenemos dos opciones:
 
   Una vez cumplidos los requisitos para ejecutar el script simplemente debemos invocarlo con el comando `python send.py`. Al lanzar el comando, el script nos pregunta la `exchange` a la que queremos enviar el mensaje y el propio mensaje que queremos enviar. Si le damos enter a cualquiera de las dos pregunta se aplicaran el valor por defecto para la `exchange` (`my_exchange`) y se genera un mensaje con la estructura por defecto con contenido aleatorio.
 
-Para indexar los eventos que enviamos debemos configurar una `Serverclass` con una aplicación que contenga un monitor hacia el archivo con el nombre de la exchange con los mensajes que queramos indexar. Este archivo tiene la extension `.log`. Ademas deberemos añadir a la `Serverclass` los forwarders a los que queramos desplegar la aplicación, es decir, a los clientes de los que queremos indexar datos.
+Para indexar los eventos que enviamos debemos configurar una `Serverclass` con una aplicación que contenga un monitor hacia el archivo con el nombre de la exchange con los mensajes que queramos indexar. Este archivo tiene la extension `.log` y se encontrara en la carpeta `/tmp`. Ademas deberemos añadir a la `Serverclass` los forwarders a los que queramos desplegar la aplicación, es decir, a los clientes de los que queremos indexar datos.
 
 Para definir la `Serverclass` deberemos ir al master node que se encuentra en el servidor con IP `192.168.33.2` y puerto `8000`.
 
