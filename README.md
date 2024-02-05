@@ -28,6 +28,7 @@
   - [Indexación de eventos](#indexación-de-eventos)
     - [Indexar eventos en producción](#indexar-eventos-en-producción)
     - [Indexar eventos en desarrollo](#indexar-eventos-en-desarrollo)
+  - [Aliases](#aliases)
   - [Preguntas frecuentes](#preguntas-frecuentes)
   - [Contribuir](#contribuir)
     - [✅ Cambios que se aceptaran](#-cambios-que-se-aceptaran)
