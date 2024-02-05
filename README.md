@@ -236,7 +236,13 @@ Para enviar datos a desarrollo debemos configurar el parámetro `_TCP_ROUTING` c
 
 ## Aliases
 
-Los alias están definidos dentro de las carpetas `splunk-enterprise` y `universal-forwarder` en un fichero con el nombre `.aliases`. En este fichero están definidos aliases para ejecutar en la terminal con el objetivo de simplificar algunas tareas. Los aliases disponibles son los siguientes:
+Los alias están definidos dentro de las carpetas `splunk-enterprise` y `universal-forwarder` en un fichero con el nombre `.aliases`. En este fichero están definidos aliases para ejecutar en la terminal con el objetivo de simplificar algunas tareas. Para cargar los aliases ejecutar el siguiente comando:
+
+``` bash
+source .aliases
+```
+
+Los aliases disponibles son los siguientes:
 
 - splunk-enterprise
   - launch_dev: Levanta el servidor con el manager, el servidor con el searchead de desarrollo y el servidor con el indexador de desarrollo.
