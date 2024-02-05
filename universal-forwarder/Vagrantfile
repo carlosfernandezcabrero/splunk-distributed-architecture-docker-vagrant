@@ -24,15 +24,15 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder '.', '/vagrant', disabled: true
 
   config.vm.provision "file", before: :all, source: "./forwarder-compose.yml",
-                      destination: "/tmp/docker-compose.yml"
+                      destination: "/home/vagrant/image/docker-compose.yml"
   config.vm.provision "file", before: :all, source: "./rabbitmq-consumer",
-                      destination: "/tmp/rabbitmq-consumer"
+                      destination: "/home/vagrant/image/rabbitmq-consumer"
   config.vm.provision "file", before: :all, source: "./uf",
-                      destination: "/tmp/uf"
+                      destination: "/home/vagrant/image/uf"
   config.vm.provision "file", before: :all, source: "../common/files/indexers.txt",
                       destination: "/tmp/indexers.txt"
   config.vm.provision "file", before: :all, source: universalforwarder_path,
-                      destination: "/tmp/uf/universalforwarder.tgz"
+                      destination: "/home/vagrant/image/uf/universalforwarder.tgz"
 
 
   config.vm.provider "virtualbox" do |v|
@@ -41,12 +41,12 @@ Vagrant.configure("2") do |config|
   end
 
 
-  config.vm.provision "outputs.conf", before: :all, type: "shell", path: "../common/configs/outputs.py", args: "/tmp/uf/outputs.conf"
+  config.vm.provision "outputs.conf", before: :all, type: "shell", path: "../common/configs/outputs.py", args: "/home/vagrant/image/uf/outputs.conf"
   config.vm.provision "set_date", before: :all, type: "shell", inline: <<-SHELL
     timedatectl set-timezone Europe/Madrid
   SHELL
   config.vm.provision "install_docker", before: :all, path: "../common/scripts/install_docker.sh", type: "shell"
-  config.vm.provision :docker_compose, after: :all, yml: "/tmp/docker-compose.yml", run: "always"
+  config.vm.provision :docker_compose, after: :all, yml: "/home/vagrant/image/docker-compose.yml", run: "always"
 
 
   File.open('../common/files/forwarders.txt') do |f|
@@ -59,7 +59,8 @@ Vagrant.configure("2") do |config|
         uf.vm.provider :virtualbox do |vb|
           vb.name = "splunk-uf-#{num_idx}"
         end
-        uf.vm.provision "server.conf", type: "shell", path: "../common/configs/server.py", args: "splunk_uf_#{num_idx} /tmp/uf/server.conf"
+
+        uf.vm.provision "server.conf", type: "shell", path: "../common/configs/server.py", args: "splunk_uf_#{num_idx} /home/vagrant/image/uf/server.conf"
       end
     end
   end
