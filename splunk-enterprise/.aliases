@@ -1,0 +1,1 @@
+alias launch_dev="vagrant up test_sh manager test_idx"
