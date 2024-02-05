@@ -234,6 +234,13 @@ Para enviar datos a producción debemos configurar el parámetro `_TCP_ROUTING` 
 
 Para enviar datos a desarrollo debemos configurar el parámetro `_TCP_ROUTING` con el valor `de_group` o no configurarlo para cada stanza que queramos que envié los datos al indexador de desarrollo. Por defecto los datos se envían al indexador de desarrollo a no ser que se especifique otra cosa.
 
+## Aliases
+
+Los alias están definidos dentro de las carpetas `splunk-enterprise` y `universal-forwarder` en un fichero con el nombre `.aliases`. En este fichero están definidos aliases para ejecutar en la terminal con el objetivo de simplificar algunas tareas. Los aliases disponibles son los siguientes:
+
+- splunk-enterprise
+  - launch_dev: Levanta el servidor con el manager, el servidor con el searchead de desarrollo y el servidor con el indexador de desarrollo.
+
 ## Preguntas frecuentes
 
 Para añadir una pregunta nueva crea una issue.
