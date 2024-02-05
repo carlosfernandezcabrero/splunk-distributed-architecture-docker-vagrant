@@ -32,9 +32,7 @@ COPY inputs.conf etc/system/local
 
 FROM splunk-enterprise as test-sh
 WORKDIR /tmp
-COPY bootstrap_test_sh.py .
-CMD python bootstrap_test_sh.py \
-	&& tail -f /dev/null
+COPY distsearch.conf /usr/local/splunk/etc/system/local
 
 
 
