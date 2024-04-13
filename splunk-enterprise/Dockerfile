@@ -1,7 +1,7 @@
-ARG DOCKER_FROM=python:3.12-slim
+ARG DOCKER_FROM=''
 FROM $DOCKER_FROM as splunk-enterprise
 
-ARG CONTAINER_RUN=apt-get update && apt-get install -y procps vim && rm -rf /var/lib/apt/lists/*
+ARG CONTAINER_RUN=''
 
 ENV TZ="Europe/Madrid"
 
