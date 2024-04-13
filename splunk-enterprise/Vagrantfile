@@ -155,7 +155,7 @@ Vagrant.configure("2") do |config|
     hf.vm.provision "server.conf", type: "shell", path: "../common/configs/server.py", args: "splunk_hf"
     hf.vm.provision "outputs.conf", type: "shell", path: "../common/configs/outputs.py"
     hf.vm.provision "docker" do |d|
-      d.build_image "/tmp", args: "--target=hf -t splunk-hf --build-arg DOCKER_FROM='#{ENV['DOCKER_FROM']}' --build-arg CONTAINER_RUN='#{ENV['CONTAINER_RUN']}'"
+      d.build_image "/tmp", args: "--target=hf -t splunk-hf --build-arg DOCKER_FROM='#{ENV['DOCKER_FROM']}' --build-arg CONTAINER_RUN='#{ENV['CONTAINER_RUN_HF']}'"
       d.run "splunk-hf", image: "splunk-hf", args: "--network host --mount source=splunkinstlogsvol,target=/usr/local/splunk/var/log/splunk --mount source=splunkinstappsvol,target=/usr/local/splunk/etc/apps"
     end
   end
