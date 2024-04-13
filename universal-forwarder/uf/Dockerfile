@@ -1,11 +1,14 @@
-FROM python:3.12-slim
+ARG DOCKER_FROM=python:3.12-slim
+FROM $DOCKER_FROM
+
+ARG CONTAINER_RUN=apt-get update && apt-get install -y procps vim && rm -rf /var/lib/apt/lists/*
 
 ENV TZ="Europe/Madrid"
 
 WORKDIR /usr/local/splunk_forwarder
 COPY universalforwarder.tgz .
 RUN tar -xzf universalforwarder.tgz && rm universalforwarder.tgz \ 
-    && apt-get update && apt-get install -y procps vim && rm -rf /var/lib/apt/lists/*
+    && $CONTAINER_RUN
 
 WORKDIR /usr/local/splunk_forwarder/splunkforwarder
 COPY deploymentclient.conf etc/apps/conf_deployment/default/
