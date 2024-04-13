@@ -7,14 +7,12 @@ ENV TZ="Europe/Madrid"
 
 WORKDIR /usr/local
 COPY splunk-enterprise.tgz .
-RUN tar -xzf splunk-enterprise.tgz
+RUN tar -xzf splunk-enterprise.tgz && $CONTAINER_RUN
 
 WORKDIR /usr/local/splunk/etc
 COPY server.conf system/local
 COPY splunk-launch.conf .
 COPY user-seed.conf system/local
-
-RUN $CONTAINER_RUN
 
 CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt \
 	&& tail -f /dev/null
