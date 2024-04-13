@@ -8,3 +8,4 @@ build/
 !common/downloads/.gitkeep
 *.tgz
 env.rb
+.DS_Store
