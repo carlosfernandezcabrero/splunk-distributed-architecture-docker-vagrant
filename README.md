@@ -110,6 +110,9 @@ Los servidores que se especifican no tienen instalado el software de Splunk, lo 
   [Página de descargas Splunk Enterprise](https://www.splunk.com/en_us/download/splunk-enterprise.html)\
   [Página de descargas Universal Forwarder](https://www.splunk.com/en_us/download/universal-forwarder.html)
 
+- Configurar imagen base de los contenedores que se crean con el Vagrantfile que hay dentro de la carpeta `splunk-enterprise`. Para configurar la imagen base a partir de la cual se deben crear los contenedores, debemos ir al archivo `splunk-enterprise/env.rb` que hemos creado anteriormente y rellenar la variable `DOCKER_FROM` con la imagen base de Docker que deseemos.
+- Configurar los comandos que queramos que se hagan durante la creación de la imagen para los contenedores que se crean con el Vagrantfile que hay dentro de la carpeta `splunk-enterprise`. Para ello debemos ir nos al archivo `splunk-enterprise/env.rb` y rellenar la variable `CONTAINER_COMMANDS` con los comandos que queramos que se ejecuten en la construcción de la imagen. Esto es uil si por ejemplo necesitamos que en el contenedor este instalado PHP, si la imagen base fuera la de Ubuntu, lo rellenaríamos con `apt install php`. La ejecución de estos comandos se hace después de configurar todo el software de Splunk, antes del comando de Docker `CMD`.
+
 ### Usuario y contraseña por defecto de las instancias Splunk
 
 Por defecto todas las instancias de Splunk han sido iniciadas con el usuario `admin` y la contraseña `admin1234`. Si se quiere cambiar las credenciales, se deberá modificar el archivo `user-seed.conf`. También se deberán recrear aquellos servidores con instancias de Splunk afectadas.\

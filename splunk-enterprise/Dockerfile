@@ -1,4 +1,7 @@
-FROM python:3.12-slim as splunk-enterprise
+ARG DOCKER_FROM=python:3.12-slim
+FROM $DOCKER_FROM as splunk-enterprise
+
+ARG CONTAINER_RUN=apt-get update && apt-get install -y procps vim && rm -rf /var/lib/apt/lists/*
 
 ENV TZ="Europe/Madrid"
 
@@ -11,7 +14,7 @@ COPY server.conf system/local
 COPY splunk-launch.conf .
 COPY user-seed.conf system/local
 
-RUN apt-get update && apt-get install -y procps vim && rm -rf /var/lib/apt/lists/*
+RUN $CONTAINER_RUN
 
 CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt \
 	&& tail -f /dev/null

@@ -1,1 +1,3 @@
 ENV['RELEASE_URL'] = ""
+ENV['DOCKER_FROM'] = ""
+ENV['CONTAINER_RUN'] = ""
