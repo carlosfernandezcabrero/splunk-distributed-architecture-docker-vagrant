@@ -196,6 +196,7 @@ Según que servidor se elimine habrá que recrear los siguientes servidores:
 | ------------------------- | ------------------------------------------------------------------ |
 | Search head de producción | Recrear load balancer y todos los demás search heads de producción |
 | Indexador de producción   | Recrear forwarders y heavy forwarder                               |
+| Indexador                 | Borrar IP del archivo `distsearch.conf` si estuviera               |
 
 ## Indexar eventos usando el servidor RabbitMQ de los forwarders
 
