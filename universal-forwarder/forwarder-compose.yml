@@ -24,6 +24,6 @@ services:
       dockerfile: Dockerfile
       args:
         - DOCKER_FROM=python:3.12-slim
-        - CONTAINER_RUN=apt-get update && apt-get install -y procps vim && rm -rf /var/lib/apt/lists/*
+        - CONTAINER_RUN=echo 'No container run command specified'
     volumes:
       - /tmp:/tmp
