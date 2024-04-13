@@ -140,13 +140,13 @@ En el caso de los forwarders, tendremos tres contenedores corriendo tal y como s
 | ------------------------------------------------------------------------- | ------------------- | --------------------------- |
 | Manager                                                                   | vagrant up manager  | splunk-enterprise           |
 | Search head desarrollo                                                    | vagrant up test_sh  | splunk-enterprise           |
-| Indice desarrollo                                                         | vagrant up test_idx | splunk-enterprise           |
+| Indexador desarrollo                                                      | vagrant up test_idx | splunk-enterprise           |
 | Heavy Forwarder                                                           | vagrant up hf       | splunk-enterprise           |
 | Balanceador de carga                                                      | vagrant up lb       | lb                          |
 | Universal Forwarders especifico                                           | vagrant up uf[num]  | universal-forwarder         |
 | Universal Forwarders todos los configurados [Ver como](#añadir-forwarder) | vagrant up          | universal-forwarder         |
 | Search head producción                                                    | vagrant up sh[num]  | splunk-enterprise           |
-| Indice producción                                                         | vagrant up idx[num] | splunk-enterprise           |
+| Indexador producción                                                      | vagrant up idx[num] | splunk-enterprise           |
 
 ## Personalizar la arquitectura por defecto
 
