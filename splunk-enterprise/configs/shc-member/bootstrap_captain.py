@@ -1,11 +1,18 @@
 import os
-from configparser import ConfigParser
+try:
+    from configparser import ConfigParser
+except ImportError:
+    from ConfigParser import ConfigParser
 
 config = ConfigParser()
 config.read("/usr/local/splunk/etc/system/local/user-seed.conf")
 
-username = config["user_info"]["USERNAME"]
-pwd = config["user_info"]["PASSWORD"]
+try:
+    username = config["user_info"]["USERNAME"]
+    pwd = config["user_info"]["PASSWORD"]
+except AttributeError:
+    username = config.get("user_info", "USERNAME")
+    pwd = config.get("user_info", "PASSWORD")
 
 file = open("shcluster_members.txt", "r")
 contents = file.read().replace(":", "").splitlines()
