@@ -185,6 +185,8 @@ CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt
 && tail -f /dev/null
 ```
 
+Por ultimo, también podemos modificar el archivo `distsearch.conf` que se encuentra en la carpeta `splunk-enterprise/configs/sh/distsearch.conf`. Tendremos que añadir en el parámetro `servers` de la stanza `distributedSearch` las IPs de los indexadores donde queramos buscar separadas por comas sin espacios. Por defecto esta añadida la IP del indexador de desarrollo.
+
 ### Eliminar servidores aprovisionados con Vagrant
 
 Para eliminar un servidor primero debemos ejecutar `vagrant destroy` del servidor y luego borrar la IP del servidor en el archivo .txt correspondiente.
