@@ -1,4 +1,4 @@
-version: '3.3'
+version: "3.3"
 
 services:
   rabbitmq:
@@ -16,7 +16,7 @@ services:
     volumes:
       - /tmp:/tmp
     restart: on-failure
-  
+
   uf:
     container_name: uf
     build:
