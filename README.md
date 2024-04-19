@@ -87,11 +87,11 @@ Los servidores que se especifican no tienen instalado el software de Splunk, lo 
   - Indexador de desarrollo -> 192.168.56.5
   - Search head de desarrollo -> 192.168.56.6
   - Heavy Forwarder -> 192.168.56.3
-  - Indexadores de producción
-  - Search heads de producción
+  - Indexadores de producción -> (192.168.56.21 y 192.168.56.22)
+  - Search heads de producción -> (192.168.56.11 y 192.168.56.12)
 
 - universal-forwarder\
-  Forwarders
+  Forwarder1 -> 192.168.56.31
 
 ## Uso
 
