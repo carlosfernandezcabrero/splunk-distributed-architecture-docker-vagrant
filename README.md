@@ -186,17 +186,7 @@ Por defecto el search head de desarrollo solo busca en el indexador de desarroll
   ./splunk add search-server https://<IP-del-indexador>:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234
   ```
 
-También podemos definirlo directamente en la sección `test-sh` del Dockerfile situado dentro de la carpeta `splunk-enterprise`. El comando añadir sigue la misma estructura que el comentado anteriormente. Por ejemplo, si quiero añadir dos indexadores con las IPs `192.168.33.21` y `192.168.33.22`, el comando `CMD` del Dockerfile quedaría de la siguiente forma:
-
-``` Dockerfile
-CMD /usr/local/splunk/bin/splunk start --answer-yes --accept-license --no-prompt \
-&& /usr/local/splunk/bin/splunk add search-server https://192.168.33.5:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234 \
-&& /usr/local/splunk/bin/splunk add search-server https://192.168.33.21:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234 \
-&& /usr/local/splunk/bin/splunk add search-server https://192.168.33.22:8089 -auth admin:admin1234 -remoteUsername admin -remotePassword admin1234 \
-&& tail -f /dev/null
-```
-
-Por ultimo, también podemos modificar el archivo `distsearch.conf` que se encuentra en la carpeta `splunk-enterprise/configs/sh/distsearch.conf`. Tendremos que añadir en el parámetro `servers` de la stanza `distributedSearch` las IPs de los indexadores donde queramos buscar separadas por comas sin espacios. Por defecto esta añadida la IP del indexador de desarrollo.
+También podemos modificar el archivo `distsearch.conf` que se encuentra en la carpeta `splunk-enterprise/configs/sh/distsearch.conf`. Tendremos que añadir en el parámetro `servers` de la stanza `distributedSearch` las IPs de los indexadores donde queramos buscar separadas por comas sin espacios. Por defecto esta añadida la IP del indexador de desarrollo.
 
 ### Eliminar servidores aprovisionados con Vagrant
 
