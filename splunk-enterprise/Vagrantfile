@@ -1,18 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-require 'open-uri'
 require './env'
-
-spl_enterprise_path = "../common/downloads/splunk-enterprise.tgz"
-
-if not File.exist?(spl_enterprise_path) or File.size(spl_enterprise_path) == 0
-  open(spl_enterprise_path, "w") do |out|
-    RELEASE_URL = ENV['RELEASE_URL']
-    spl_ent = URI.open("https://download.splunk.com/products/splunk/releases/#{RELEASE_URL}").read
-    out.write(spl_ent)
-  end
-end
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for

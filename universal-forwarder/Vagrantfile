@@ -1,19 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-require 'open-uri'
-require './env'
-
-universalforwarder_path = "../common/downloads/universalforwarder.tgz"
-
-if not File.exist?(universalforwarder_path) or File.size(universalforwarder_path) == 0
-  open(universalforwarder_path, "w") do |out|
-    RELEASE_URL = ENV['RELEASE_URL']
-    response = URI.open("https://download.splunk.com/products/universalforwarder/releases/#{RELEASE_URL}").read
-    out.write(response)
-  end
-end
-
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
