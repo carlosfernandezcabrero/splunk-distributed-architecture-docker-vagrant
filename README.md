@@ -81,12 +81,12 @@ Los servidores que se especifican no tienen instalado el software de Splunk, lo 
 - splunk-enterprise\
   En este directorio tenemos el Vagrantfile que crea las siguientes piezas de la arquitectura:
 
-  - Master
-  - Deployer
-  - Deployment Server
-  - Indexador de desarrollo
-  - Search head de desarrollo
-  - Heavy Forwarder
+  - Master -> 192.168.56.2
+  - Deployer -> 192.168.56.2
+  - Deployment Server -> 192.168.56.2
+  - Indexador de desarrollo -> 192.168.56.5
+  - Search head de desarrollo -> 192.168.56.6
+  - Heavy Forwarder -> 192.168.56.3
   - Indexadores de producción
   - Search heads de producción
 
