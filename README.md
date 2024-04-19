@@ -97,18 +97,21 @@ Los servidores que se especifican no tienen instalado el software de Splunk, lo 
 
 ### Primera configuración
 
-- Configurar las rutas de descarga de Splunk. Para ello debemos de renombrar los ficheros `env.example.rb` a `env.rb`.
+- Descargar el paquete con el producto de Splunk. El paquete debe ser un TGZ para Linux.
+  - Splunk Enterprise: Para descarga el Splunk Enterprise deberemos ir a las siguientes URL's:
+    - Ultima versión: <https://download.splunk.com/products/splunk/releases/>
+    - Versiones previas: <https://www.splunk.com/en_us/download/previous-releases.html>
 
-  - Splunk Enterprise\
-  En la variable `RELEASE_URL`, entre las comillas dobles, debemos asignar la ruta de descarga del paquete .tgz de la version que queramos utilizar de Splunk Enterprise. Solo debemos añadir la parte de la url a partir de "<https://download.splunk.com/products/splunk/releases/>"
+    El comprimido lo deberemos llamar `splunk-enterprise.tgz`.
+  - Splunk Universal Forwarder: Para descarga el Universal Forwarder deberemos ir a las siguientes URL's:
+    - Ultima version: <https://www.splunk.com/en_us/download/universal-forwarder.html>
+    - Versiones previas: <https://www.splunk.com/en_us/download/previous-releases-universal-forwarder.html>
+  
+    El comprimido lo deberemos llamar `universalforwarder.tgz`.
 
-  - Splunk Universal Forwarder\
-  En la variable `RELEASE_URL`, entre comillas dobles, debemos asignar la ruta de descarga del paquete .tgz de la version que queramos utilizar de Splunk Universal Forwarder. Solo debemos añadir la parte de la url a partir de "<https://download.splunk.com/products/splunk/releases/>"
+  Para descargar los comprimidos con Wget, cURL o cualquier otra herramienta para hacer peticiones, debemos usar la URL <https://download.splunk.com/products/splunk/releases/> seguida de la parte variable para cada version y pieza (Universal Forwarder, Splunk Enterprise). Si no la sabes, en el repositorio hay un fichero llamado `urls.txt` dentro de las carpetas `universal-forwarder` y `splunk-enterprise` con la parte variable de algunas versiones para cada pieza. Debemos escoger la parte variable de la URL del archivo `urls.txt` de una carpeta u otra dependiendo que pieza nos queramos descargar de Splunk. Si la version de Splunk Enterprise o Splunk Universal Forwarder que buscas no esta en el archivo `urls.txt` correspondiente, crea una Pull Request para incluirla.
 
-  Para facilitar la configuración de la variable `RELEASE_URL`, en cada directorio donde hay un archivo llamado `env.example.rb`, hay un archivo llamado `urls.txt` con versiones que otros usuario han subido al repositorio. Para usarlas solo debemos copiar la url de la versión que queramos utilizar del archivo `urls.txt` y asignar se la a la variable `RELEASE_URL` en el archivo `env.rb` que hemos renombrado anteriormente. Si la version de Splunk Enterprise o Splunk Universal Forwarder que buscas no esta en el archivo `urls.txt` correspondiente, crea una Pull Request para incluirla.
-
-  [Página de descargas Splunk Enterprise](https://www.splunk.com/en_us/download/splunk-enterprise.html)\
-  [Página de descargas Universal Forwarder](https://www.splunk.com/en_us/download/universal-forwarder.html)
+  El comprimido con el Universal Forwarder o el Splunk Enterprise deberá estar situados dentro de la carpeta `common/downloads`.
 
 - Splunk Enterprise
   - Configurar imagen base de los contenedores que se crean con el Vagrantfile que hay dentro de la carpeta `splunk-enterprise`. Para configurar la imagen base a partir de la cual se deben crear los contenedores, debemos ir al archivo `splunk-enterprise/env.rb` que hemos creado anteriormente y rellenar la variable `DOCKER_FROM` con la imagen base de Docker que deseemos.
