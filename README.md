@@ -75,7 +75,7 @@ Los servidores que se especifican no tienen instalado el software de Splunk, lo 
 - images\
   Imágenes utilizadas para crear e README.
 
-- lb (192.168.33.4:80)\
+- lb (192.168.56.4:80)\
   Balanceador de carga para los search heads de producción.
 
 - splunk-enterprise\
@@ -225,7 +225,7 @@ Para enviar eventos al servidor RabbitMQ de los forwarders tenemos dos opciones:
 
 Para indexar los eventos que enviamos debemos configurar una `Serverclass` con una aplicación que contenga un monitor hacia el archivo con el nombre de la exchange con los mensajes que queramos indexar. Este archivo tiene la extension `.log` y se encontrara en la carpeta `/tmp`. Ademas deberemos añadir a la `Serverclass` los forwarders a los que queramos desplegar la aplicación, es decir, a los clientes de los que queremos indexar datos.
 
-Para definir la `Serverclass` deberemos ir al master node que se encuentra en el servidor con IP `192.168.33.2` y puerto `8000`.
+Para definir la `Serverclass` deberemos ir al master node que se encuentra en el servidor con IP `192.168.56.2` y puerto `8000`.
 
 Para enviar datos a producción o desarrollo, ver la sección siguiente.
 

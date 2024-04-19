@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
 
 
   config.vm.define "manager" do |man|
-    man.vm.network :private_network, ip: "192.168.33.2"
+    man.vm.network :private_network, ip: "192.168.56.2"
     man.vm.provision  "file", source: "./configs/manager/server.conf", 
                       destination: "/tmp/server.conf"
     man.vm.provider :virtualbox do |vb|
@@ -83,7 +83,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "test_idx" do |tidx|
     tidx.vm.provision  "file", source: "./configs/idx/inputs.conf", 
                         destination: "/tmp/inputs.conf"
-    tidx.vm.network :private_network, ip: "192.168.33.5"
+    tidx.vm.network :private_network, ip: "192.168.56.5"
     tidx.vm.provider :virtualbox do |vb|
       vb.name = "splunk-idx-test"
     end
@@ -98,7 +98,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "test_sh" do |tsh|
-    tsh.vm.network :private_network, ip: "192.168.33.6"
+    tsh.vm.network :private_network, ip: "192.168.56.6"
     tsh.vm.provision "file", source: "./configs/sh/distsearch.conf", 
                       destination: "/tmp/distsearch.conf"
     tsh.vm.provider :virtualbox do |vb|
@@ -135,7 +135,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "hf" do |hf|
-    hf.vm.network :private_network, ip: "192.168.33.3"
+    hf.vm.network :private_network, ip: "192.168.56.3"
     hf.vm.provider :virtualbox do |vb|
       vb.name = "splunk-hf"
     end
