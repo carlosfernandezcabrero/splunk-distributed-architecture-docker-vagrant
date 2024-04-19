@@ -44,7 +44,7 @@
   vagrant plugin install vagrant-docker-compose
   ```
 
-- Se recomienda utilizar este repositorio en un sistema operativo basado en UNIX ya que su desarrollado se ha realizado en uno basado en el. Cualquier problema en un sistema operativo Windows, por favor, abrir una issue para corregirlo.
+- Tener instalado VirtualBox con la version igual o mayor 7.0.
 
 ## Arquitectura por defecto
 
