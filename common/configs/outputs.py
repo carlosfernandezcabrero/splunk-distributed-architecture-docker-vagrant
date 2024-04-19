@@ -12,7 +12,7 @@ config.read(outputs_path)
 
 config["tcpout"] = {"defaultGroup": "de_group"}
 
-config["tcpout:de_group"] = {"server": "192.168.33.5:9997"}
+config["tcpout:de_group"] = {"server": "192.168.56.5:9997"}
 
 with open("/tmp/indexers.txt", "r") as indexers_file:
     indexers = indexers_file.read().replace(":", "").splitlines()
