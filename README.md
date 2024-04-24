@@ -163,15 +163,15 @@ En el caso de los forwarders, tendremos tres contenedores corriendo tal y como s
 
 ### Añadir indexador al cluster de indexadores de producción
 
-Para añadir un indexador al cluster de indexadores de producción debemos modificar el fichero `indexers.txt` que esta presente en la carpeta `files` dentro de la carpeta `common`. Deberemos añadir a este fichero una línea por cada indexador que queramos añadir al cluster. Este línea debe contener exclusivamente la IP del servidor que debe contener el indexador, precedida por `:`.
+Para añadir un indexador al cluster de indexadores de producción debemos modificar el fichero `indexers.txt` que esta presente en la carpeta `files` dentro de la carpeta `common`. Deberemos añadir a este fichero una línea por cada indexador que queramos añadir al cluster. Este línea debe contener exclusivamente la IP del servidor que debe contener el indexador, precedida por `:`. Para levantar la maquina virtual con el contenedor Docker que contiene el indexador que acabamos de añadir, deberemos ejecutar el comando `vagrant up idx<numero de linea donde se encuentra la IP>` sobre la carpeta `splunk-enterprise`.
 
 ### Añadir miembro al cluster de search heads de producción
 
-Para añadir un search head al cluster de search heads de producción debemos modificar el fichero `shcluster_members.txt` que esta presente en la carpeta `files` dentro de la carpeta `common`. Deberemos añadir a este fichero una línea por cada search head que queramos añadir al cluster. Este línea debe contener exclusivamente la IP del servidor que debe contener el search head, precedida por `:`.
+Para añadir un search head al cluster de search heads de producción debemos modificar el fichero `shcluster_members.txt` que esta presente en la carpeta `files` dentro de la carpeta `common`. Deberemos añadir a este fichero una línea por cada search head que queramos añadir al cluster. Este línea debe contener exclusivamente la IP del servidor que debe contener el search head, precedida por `:`. Para levantar la maquina virtual con el contenedor Docker que contiene el searchhead que acabamos de añadir, deberemos ejecutar el comando `vagrant up sh<numero de linea donde se encuentra la IP>` sobre la carpeta `splunk-enterprise`.
 
 ### Añadir forwarder
 
-Para añadir un forwarder debemos modificar el fichero `forwarders.txt` que esta presente en la carpeta `files` dentro de la carpeta `common`. Deberemos añadir a este fichero una línea por cada forwarder que queramos añadir. Este línea debe contener exclusivamente la IP del servidor que debe contener el forwarder, precedida por `:`.
+Para añadir un forwarder debemos modificar el fichero `forwarders.txt` que esta presente en la carpeta `files` dentro de la carpeta `common`. Deberemos añadir a este fichero una línea por cada forwarder que queramos añadir. Este línea debe contener exclusivamente la IP del servidor que debe contener el forwarder, precedida por `:`. Para levantar la maquina virtual con el contenedor Docker que contiene el universal forwarder que acabamos de añadir, deberemos ejecutar el comando `vagrant up uf<numero de linea donde se encuentra la IP>` sobre la carpeta `universal-forwarder`.
 
 ### Añadir peers al search head de desarrollo
 
